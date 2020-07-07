@@ -83,8 +83,8 @@ mysql:
   imageTag: 5.7
   podSecurityContext:
     enabled: true
-    fsGroup: 1001
-    runAsUser: 1001
+    fsGroup: 999
+    runAsUser: 999
   ## Default: random 10 character string
   # mysqlRootPassword: secret=
   mysqlUser: passbolt
