@@ -66,10 +66,16 @@ spec:
             value: {{ .Values.passbolt.config.registration }}
           - name: SECURITY_SALT
             value: {{ .Values.passbolt.config.salt }}
+          - name: PASSBOLT_GPG_SERVER_KEY_FINGERPRINT
+            value: {{ .Values.passbolt.config.gpgServerKeyFingerprint }}
           ports:
             - name: http
               containerPort: 80
               protocol: TCP
+          volumeMounts:
+            - name: gpg
+              mountPath: /var/www/passbolt/config/gpg
+              readOnly: true
           livenessProbe:
             httpGet:
               path: /
@@ -80,6 +86,10 @@ spec:
               port: http
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+        - name: gpg
+          secret:
+            secretName: {{ template "passbolt-helm.fullname" . }}-gpg
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
