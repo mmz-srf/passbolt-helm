@@ -29,19 +29,39 @@ spec:
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
+          - name: APP_FULL_BASE_URL
+            value: https://{{ .Values.ingress.host }}
           - name: DATASOURCES_DEFAULT_HOST
             value: {{ .Release.Name }}-mysql
           - name: DATASOURCES_DEFAULT_USERNAME
             value: {{ .Values.mysql.mysqlUser }}
-          - name: DATASOURCES_DEFAULT_DATABASE
-            value: passbolt
-          - name: APP_FULL_BASE_URL
-            value: https://{{ .Values.ingress.host }}
           - name: DATASOURCES_DEFAULT_PASSWORD
             valueFrom:
               secretKeyRef:
                 name: {{ .Release.Name }}-mysql
                 key: mysql-password
+          - name: DATASOURCES_DEFAULT_DATABASE
+            value: {{ .Values.mysql.mysqlDatabase }}
+          {{- if .Values.passbolt.config.email.enabled }}
+          - name: EMAIL_TRANSPORT_DEFAULT_CLASS_NAME
+            value: "Smtp"
+          - name: EMAIL_DEFAULT_FROM
+            value: {{ .Values.passbolt.config.email.from }}
+          - name: EMAIL_DEFAULT_TRANSPORT
+            value: {{ .Values.passbolt.config.email.defaultTransport }}
+          - name: EMAIL_TRANSPORT_DEFAULT_HOST
+            value: {{ .Values.passbolt.config.email.host }}
+          - name: EMAIL_TRANSPORT_DEFAULT_PORT
+            value: {{ .Values.passbolt.config.email.port }}
+          - name: EMAIL_TRANSPORT_DEFAULT_TIMEOUT
+            value: {{ .Values.passbolt.config.email.timeout }}
+          - name: EMAIL_TRANSPORT_DEFAULT_USERNAME
+            value: {{ .Values.passbolt.config.email.username }}
+          - name: EMAIL_TRANSPORT_DEFAULT_PASSWORD
+            value: {{ .Values.passbolt.config.email.password }}
+          - name: EMAIL_TRANSPORT_DEFAULT_URL
+            value: {{ .Values.passbolt.config.email.url }}
+          {{- end -}}
           ports:
             - name: http
               containerPort: 80
