@@ -79,6 +79,7 @@ spec:
             {{- if .Values.passbolt.config.license.enabled }}
             - name: license
               mountPath: /var/www/passbolt/config/license
+              subPath: license
               readOnly: true
             {{- end }}
           livenessProbe:
