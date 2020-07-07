@@ -25,6 +25,7 @@ securityContext: {}
   # runAsUser: 1000
 passbolt:
   config:
+    registration: false
     email:
       enabled: false
       from: passbolt@domain.com

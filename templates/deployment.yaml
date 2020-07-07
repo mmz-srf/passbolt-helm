@@ -62,6 +62,8 @@ spec:
           - name: EMAIL_TRANSPORT_DEFAULT_URL
             value: {{ .Values.passbolt.config.email.url }}
           {{- end -}}
+          - name: PASSBOLT_REGISTRATION_PUBLIC
+            value: {{ .Values.passbolt.config.registration }}
           ports:
             - name: http
               containerPort: 80
