@@ -76,9 +76,11 @@ spec:
             - name: gpg
               mountPath: /var/www/passbolt/config/gpg
               readOnly: true
+            {{- if .Values.passbolt.config.license.enabled }}
             - name: license
               mountPath: /var/www/passbolt/config/license
               readOnly: true
+            {{- end }}
           livenessProbe:
             httpGet:
               path: /
@@ -97,9 +99,11 @@ spec:
         - name: gpg
           secret:
             secretName: {{ template "passbolt-helm.fullname" . }}-gpg
+        {{- if .Values.passbolt.config.license.enabled }}
         - name: license
           secret:
             secretName: {{ template "passbolt-helm.fullname" . }}-license
+        {{- end }}
       {{- with .Values.nodeSelector }}
       nodeSelector:
         {{- toYaml . | nindent 8 }}
