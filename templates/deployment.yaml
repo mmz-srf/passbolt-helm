@@ -63,7 +63,7 @@ spec:
             value: {{ .Values.passbolt.config.email.url }}
           {{- end }}
           - name: PASSBOLT_REGISTRATION_PUBLIC
-            value: {{ .Values.passbolt.config.registration }}
+            value: {{ .Values.passbolt.config.registration | quote }}
           - name: SECURITY_SALT
             value: {{ .Values.passbolt.config.salt }}
           - name: PASSBOLT_GPG_SERVER_KEY_FINGERPRINT
