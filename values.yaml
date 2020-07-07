@@ -79,9 +79,8 @@ tolerations: []
 affinity: {}
 
 percona: 
-  perconaUser: passbolt
-  perconaPassword: 1234ada
-  perconaDatabase: passbolt
+  mysqlUser: passbolt
+  mysqlDatabase: passbolt
   persistence:
     enabled: true
     storageClass: nas-perf

@@ -34,14 +34,14 @@ spec:
           - name: DATASOURCES_DEFAULT_HOST
             value: {{ .Release.Name }}-percona
           - name: DATASOURCES_DEFAULT_USERNAME
-            value: {{ .Values.percona.perconaUser }}
+            value: {{ .Values.percona.mysqlUser }}
           - name: DATASOURCES_DEFAULT_PASSWORD
             valueFrom:
               secretKeyRef:
                 name: {{ .Release.Name }}-percona
                 key: mysql-password
           - name: DATASOURCES_DEFAULT_DATABASE
-            value: {{ .Values.percona.perconaDatabase }}
+            value: {{ .Values.percona.mysqlDatabase }}
           {{- if .Values.passbolt.config.email.enabled }}
           - name: EMAIL_TRANSPORT_DEFAULT_CLASS_NAME
             value: "Smtp"
