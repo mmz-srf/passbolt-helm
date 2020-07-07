@@ -1,0 +1,12 @@
+apiVersion: v1
+appVersion: "1.0"
+home: http://passbolt.com
+description: A Passbolt Helm chart for Kubernetes.
+name: passbolt-helm
+sources:
+  - https://github.com/actonica/passbolt.k8s
+icon: https://www.passbolt.com/img/logo/logo.svg
+version: 0.1.0
+maintainers:
+  - name: Gianni Carafa
+    email: gianni.carafa@srf.ch
