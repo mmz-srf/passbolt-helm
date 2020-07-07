@@ -64,6 +64,8 @@ spec:
           {{- end -}}
           - name: PASSBOLT_REGISTRATION_PUBLIC
             value: {{ .Values.passbolt.config.registration }}
+          - name: SECURITY_SALT
+            value: {{ .Values.passbolt.config.salt }}
           ports:
             - name: http
               containerPort: 80
