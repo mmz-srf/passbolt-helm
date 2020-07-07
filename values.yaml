@@ -82,7 +82,7 @@ percona:
   perconaUser: passbolt
   perconaPassword: 1234ada
   perconaDatabase: passbolt
-  persistance:
+  persistence:
     enabled: true
     storageClass: nas-perf
 
