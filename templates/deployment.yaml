@@ -28,6 +28,20 @@ spec:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          env:
+          - name: DATASOURCES_DEFAULT_HOST
+            value: {{ .Release.Name }}-mysql
+          - name: DATASOURCES_DEFAULT_USERNAME
+            value: {{ .Values.mysql.mysqlUser }}
+          - name: DATASOURCES_DEFAULT_DATABASE
+            value: passbolt
+          - name: APP_FULL_BASE_URL
+            value: https://{{ .Values.ingress.host }}
+          - name: DATASOURCES_DEFAULT_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Release.Name }}-mysql
+                key: mysql-password
           ports:
             - name: http
               containerPort: 80
