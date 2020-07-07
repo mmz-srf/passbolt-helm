@@ -32,16 +32,16 @@ spec:
           - name: APP_FULL_BASE_URL
             value: https://{{ .Values.ingress.host }}
           - name: DATASOURCES_DEFAULT_HOST
-            value: {{ .Release.Name }}-mysql
+            value: {{ .Release.Name }}-percona
           - name: DATASOURCES_DEFAULT_USERNAME
-            value: {{ .Values.mysql.mysqlUser }}
+            value: {{ .Values.percona.perconaUser }}
           - name: DATASOURCES_DEFAULT_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: {{ .Release.Name }}-mysql
+                name: {{ .Release.Name }}-percona
                 key: mysql-password
           - name: DATASOURCES_DEFAULT_DATABASE
-            value: {{ .Values.mysql.mysqlDatabase }}
+            value: {{ .Values.percona.perconaDatabase }}
           {{- if .Values.passbolt.config.email.enabled }}
           - name: EMAIL_TRANSPORT_DEFAULT_CLASS_NAME
             value: "Smtp"
