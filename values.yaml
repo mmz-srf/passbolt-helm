@@ -13,13 +13,6 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
-serviceAccount:
-  # Specifies whether a service account should be created
-  create: true
-  # The name of the service account to use.
-  # If not set and create is true, a name is generated using the fullname template
-  name:
-
 podSecurityContext: {}
   # fsGroup: 2000
 
@@ -66,3 +59,34 @@ nodeSelector: {}
 tolerations: []
 
 affinity: {}
+
+mysql:
+  image: mysql
+  imageTag: 5.7
+  ## Default: random 10 character string
+  # mysqlRootPassword: secret=
+  mysqlUser: passbolt
+  ## Default: random 10 character string
+  # mysqlPassword:
+  mysqlDatabase: passbolt
+  imagePullPolicy: IfNotPresent
+  resources:
+    limits:
+      memory: 1Gi
+      cpu: 300m
+    requests:
+      memory: 256Mi
+      cpu: 50m
+  persistence:
+    enabled: true
+    ## database data Persistent Volume Storage Class
+    ## If defined, storageClassName: <storageClass>
+    ## If set to "-", storageClassName: "", which disables dynamic provisioning
+    ## If undefined (the default) or set to null, no storageClassName spec is
+    ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+    ##   GKE, AWS & OpenStack)
+    ##
+    # storageClass: "-"
+    accessMode: ReadWriteOnce
+    size: 8Gi
+    annotations: {}
