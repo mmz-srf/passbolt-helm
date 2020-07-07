@@ -28,6 +28,8 @@ passbolt:
     registration: false
     salt: c91c65c4728d4534bb25c991c938b9a99d1292c38dbc6f0e9fz65bae00bb32c0
     gpgServerKeyFingerprint: 7A0CBF47D59C7EBC23D7AEF30D0E1F335906E61W
+    license: 
+      enabled: false
     email:
       enabled: false
       from: passbolt@domain.com
