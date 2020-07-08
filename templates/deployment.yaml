@@ -61,6 +61,8 @@ spec:
             value: {{ .Values.passbolt.config.email.password }}
           - name: EMAIL_TRANSPORT_DEFAULT_URL
             value: {{ .Values.passbolt.config.email.url }}
+          - name: EMAIL_TRANSPORT_DEFAULT_TLS
+            value: {{ .Values.passbolt.config.email.tls | quote }}
           {{- end }}
           - name: PASSBOLT_REGISTRATION_PUBLIC
             value: {{ .Values.passbolt.config.registration | quote }}
