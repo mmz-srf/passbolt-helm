@@ -52,9 +52,9 @@ spec:
           - name: EMAIL_TRANSPORT_DEFAULT_HOST
             value: {{ .Values.passbolt.config.email.host }}
           - name: EMAIL_TRANSPORT_DEFAULT_PORT
-            value: {{ .Values.passbolt.config.email.port }}
+            value: {{ .Values.passbolt.config.email.port | quote }}
           - name: EMAIL_TRANSPORT_DEFAULT_TIMEOUT
-            value: {{ .Values.passbolt.config.email.timeout }}
+            value: {{ .Values.passbolt.config.email.timeout | quote }}
           - name: EMAIL_TRANSPORT_DEFAULT_USERNAME
             value: {{ .Values.passbolt.config.email.username }}
           - name: EMAIL_TRANSPORT_DEFAULT_PASSWORD
