@@ -38,6 +38,7 @@ You will need this to export it and in your values.yaml to validate the keys.
 
 4. Export keys
 
+        KEY_ID=<put your key here>
         gpg --armor --export $KEY_ID > serverkey.asc
         gpg --armor --export-secret-keys $KEY_ID > serverkey_private.asc
 
