@@ -8,15 +8,15 @@
 
 1. Create GPG config file gpg-server-key.conf
 
-    %echo Generating a basic OpenPGP key
-    Key-Type: RSA
-    Key-Length: 4096
-    Subkey-Type: RSA
-    Subkey-Length: 4096
-    Name-Email: joe@foo.bar
-    Name-Real: Joe Tester
-    Expire-Date: 0
-    %echo done
+        %echo Generating a basic OpenPGP key
+        Key-Type: RSA
+        Key-Length: 4096
+        Subkey-Type: RSA
+        Subkey-Length: 4096
+        Name-Email: joe@foo.bar
+        Name-Real: Joe Tester
+        Expire-Date: 0
+        %echo done
 
 ---
 **NOTE**
@@ -27,19 +27,19 @@ Do not set a Password, since passbolt wont start
 
 2. Create GPG keys
 
-    gpg --gen-key --batch gpg-server-key.conf
+        gpg --gen-key --batch gpg-server-key.conf
 
 
 3. List GPG keys 
 
-    gpg --list-secret-keys --keyid-format LONG
+        gpg --list-secret-keys --keyid-format LONG
 
 You will need this to export it an in your values.yaml to validate the keys.
 
 4. Export keys
 
-    gpg --armor --export $KEY_ID > serverkey.asc
-    gpg --armor --export-secret-keys $KEY_ID > serverkey_private.asc
+        gpg --armor --export $KEY_ID > serverkey.asc
+        gpg --armor --export-secret-keys $KEY_ID > serverkey_private.asc
 
 ## Generate SALT
     openssl rand -base64 32
