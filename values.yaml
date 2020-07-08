@@ -31,6 +31,9 @@ passbolt:
     gpgServerKeyFingerprint: 7A0CBF47D59C7EBC23D7AEF30D0E1F335906E61W
     license: 
       enabled: false
+    plugins:
+      exportenabled: false
+      importenabled: true
     email:
       enabled: false
       from: passbolt@domain.com
