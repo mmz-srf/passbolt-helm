@@ -4,7 +4,7 @@
 - Kubernetes > 1.16.X
 - Helm > v2.16.X
 
-## GPG Key Genereation
+## GPG key genereation
 
 1. Create GPG config file gpg-server-key.conf
 
@@ -21,7 +21,7 @@
 ---
 **NOTE**
 
-Do not set a Password, since passbolt wont start 
+Do not set a Password, since passbolt won't start 
 
 ---
 
@@ -34,7 +34,7 @@ Do not set a Password, since passbolt wont start
 
         gpg --list-secret-keys --keyid-format LONG
 
-You will need this to export it an in your values.yaml to validate the keys.
+You will need this to export it and in your values.yaml to validate the keys.
 
 4. Export keys
 

@@ -80,7 +80,7 @@ percona:
   mysqlDatabase: passbolt
   persistence:
     enabled: true
-    storageClass: nas-perf
+#    storageClass: ""
     size: 8Gi
   resources:
     limits:
