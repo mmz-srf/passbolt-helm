@@ -68,6 +68,8 @@ spec:
             value: {{ .Values.passbolt.config.salt }}
           - name: PASSBOLT_GPG_SERVER_KEY_FINGERPRINT
             value: {{ .Values.passbolt.config.gpgServerKeyFingerprint }}
+          - name: DEBUG
+            value: {{ .Values.passbolt.config.debug | quote }}
           ports:
             - name: http
               containerPort: 80
