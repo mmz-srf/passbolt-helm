@@ -32,23 +32,19 @@ spec:
           - name: APP_FULL_BASE_URL
             value: https://{{ .Values.ingress.host }}
           - name: DATASOURCES_DEFAULT_HOST
-            value: {{ .Release.Name }}-percona
+            value: {{ .Release.Name }}-db
           - name: DATASOURCES_DEFAULT_USERNAME
-            value: {{ .Values.percona.mysqlUser }}
+            value: {{ .Values.db.db.user }}
           - name: DATASOURCES_DEFAULT_PASSWORD
             valueFrom:
               secretKeyRef:
-                name: {{ .Release.Name }}-percona
-                key: mysql-password
+                name: {{ .Release.Name }}-db
+                key: mariadb-password
           - name: DATASOURCES_DEFAULT_DATABASE
-            value: {{ .Values.percona.mysqlDatabase }}
+            value: {{ .Values.db.db.name }}
           {{- if .Values.passbolt.config.email.enabled }}
-          - name: EMAIL_TRANSPORT_DEFAULT_CLASS_NAME
-            value: "Smtp"
           - name: EMAIL_DEFAULT_FROM
             value: {{ .Values.passbolt.config.email.from }}
-          - name: EMAIL_DEFAULT_TRANSPORT
-            value: {{ .Values.passbolt.config.email.defaultTransport }}
           - name: EMAIL_TRANSPORT_DEFAULT_HOST
             value: {{ .Values.passbolt.config.email.host }}
           - name: EMAIL_TRANSPORT_DEFAULT_PORT
@@ -59,10 +55,6 @@ spec:
             value: {{ .Values.passbolt.config.email.username }}
           - name: EMAIL_TRANSPORT_DEFAULT_PASSWORD
             value: {{ .Values.passbolt.config.email.password }}
-          - name: EMAIL_TRANSPORT_DEFAULT_URL
-            value: {{ .Values.passbolt.config.email.url }}
-          - name: EMAIL_TRANSPORT_DEFAULT_TLS
-            value: {{ .Values.passbolt.config.email.tls | quote }}
           {{- end }}
           - name: PASSBOLT_REGISTRATION_PUBLIC
             value: {{ .Values.passbolt.config.registration | quote }}
@@ -92,16 +84,16 @@ spec:
             {{- end }}
           livenessProbe:
             httpGet:
-              path: /
+              path: /auth/login
               port: http
-              initialDelaySeconds: 300
-              timeoutSeconds: 30
+            initialDelaySeconds: 60
+            timeoutSeconds: 10
           readinessProbe:
             httpGet:
-              path: /
+              path: /auth/login
               port: http
-              initialDelaySeconds: 300
-              timeoutSeconds: 30
+            initialDelaySeconds: 60
+            timeoutSeconds: 10
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:

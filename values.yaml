@@ -4,6 +4,7 @@
 
 replicaCount: 1
 
+# Image
 image:
   repository: "passbolt/passbolt"
   tag: latest
@@ -13,50 +14,53 @@ imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
 
-podSecurityContext: {}
-  # fsGroup: 2000
-
-securityContext: {}
-  # capabilities:
-  #   drop:
-  #   - ALL
-  # readOnlyRootFilesystem: true
-  # runAsNonRoot: true
-  # runAsUser: 1000
+# Passbolt configuration
 passbolt:
   config:
     debug: false
     registration: false
-    salt: ""
-    gpgServerKeyFingerprint: ""
+    salt: "your salt"
+    gpgServerKeyFingerprint: "your gpg server key fingerprint"
     license: 
       enabled: false
     plugins:
-      exportenabled: false
+      exportenabled: true
       importenabled: true
     email:
       enabled: false
-      from: passbolt@domain.com
-      defaultTransport: default
-      host: smtp.domain.com
+      from: you@localhost
+      host: localhost
       port: 25
       timeout: 30
       username: username
-      password: not-a-password
-      url: domain.com
-      tls: false
+      password: password
 
+# Pod security specific configurations. see deployment.yaml
+podSecurityContext: {}
+securityContext: {}
+
+# Database (dependency:mariadb, alias:db)
+db:
+  replication:
+    enabled: false
+  db:
+    name: passbolt
+    user: passbolt
+    password: passbolt
+
+
+# Service
 service:
   type: ClusterIP
   port: 80
 
+# Ingress
 ingress:
   enabled: true
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
-  host: "passbolt.domain.com"
-
+  host: "passbolt.yourdomain.com"
   tls:
     enabled: false
   #  secretName: chart-example-tls
@@ -79,16 +83,3 @@ tolerations: []
 
 affinity: {}
 
-percona: 
-  mysqlUser: passbolt
-  mysqlDatabase: passbolt
-  persistence:
-    enabled: true
-    size: 8Gi
-  resources:
-    limits:
-      memory: 1Gi
-      cpu: 300m
-    requests:
-      memory: 256Mi
-      cpu: 50m
