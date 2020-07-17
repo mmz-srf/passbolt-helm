@@ -1,6 +1,6 @@
 dependencies:
-- name: percona
+- name: mariadb
   repository: https://kubernetes-charts.storage.googleapis.com/
-  version: 1.2.1
-digest: sha256:03151ab17fa7e6bf0511b6ce4f942bb69914732376bb9f7a7e45358fe974a1c5
-generated: "2020-07-07T15:38:46.130514+02:00"
+  version: 7.3.14
+digest: sha256:488ca9749d129766d12accb93b5d08ba12af88efd63c661428fdb893d95e24a5
+generated: "2020-07-15T11:45:51.870948+02:00"
