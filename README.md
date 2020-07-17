@@ -32,8 +32,11 @@ For more parameters you should have a look at ...
 | `passbolt.config.debug` | Enable/Disable debug output in passbolt image | `false` |
 | `passbolt.config.registration` | Enable/Disable user can register | `false` |
 | `passbolt.config.salt` | Salt. Generate: ```openssl rand -base64 32``` | `"your salt"` |
-| `passbolt.config.gpgServerKeyFingerprint` | The GPG server key fingerprint. See [GPG key genereation](#gpg-key-generation)  | `"your gpg server key fingerprint"` |
-| `passbolt.config.license.enabled` | Set true if you own a license key. You have to put the key after the deployment in the passbolt secret. | `false` |
+| `passbolt.config.gpgServerKeyFingerprint` | The GPG server key fingerprint. See [GPG key generation](#gpg-key-generation) | `"your gpg server key fingerprint"` |
+| `passbolt.config.serverkey` | The GPG server key (base64 encoded). If set the key will not be read from [file](secrets/gpg/serverkey.asc) | ` ` |
+| `passbolt.config.serverkey_private` | The GPG private server key (base64 encoded). If set the private key will not be read from [file](secrets/gpg/serverkey_private.asc) | ` ` |
+| `passbolt.config.license.enabled` | Set true if you own a license key. Add the license key in [secrets/pro-license/license](secrets/pro-license/license) | `false` |
+| `passbolt.config.license.key` | The license key (base64 encoded). If set the license key will not be read from [file](secrets/pro-license/license). | `false` |
 | `passbolt.config.plugins.exportenabled` | Enable export plugin | `true` |
 | `passbolt.config.plugins.importenabled` | Enable import plugin | `true` |
 | `passbolt.config.email.enabled` | Enable/Disable sending emails transport | `false` |
@@ -68,7 +71,6 @@ For more parameters you should have a look at ...
         Expire-Date: 0
         %echo done
 
-
 2. Create GPG keys
 
     :warning: do not set a password, since passbolt won't start :warning:
@@ -87,6 +89,10 @@ For more parameters you should have a look at ...
         KEY_ID=<put your key here>
         gpg --armor --export $KEY_ID > serverkey.asc
         gpg --armor --export-secret-keys $KEY_ID > serverkey_private.asc
+
+
+:warning: Copy the serverkey.asc and serverkey_private.asc files to secrets/gpg. 
+
 
 ## Create first passbolt admin user
 

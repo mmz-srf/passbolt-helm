@@ -21,8 +21,11 @@ passbolt:
     registration: false
     salt: "your salt"
     gpgServerKeyFingerprint: "your gpg server key fingerprint"
+    # serverkey_private: 
+    # serverkey:
     license: 
       enabled: false
+      # key:
     plugins:
       exportenabled: true
       importenabled: true
