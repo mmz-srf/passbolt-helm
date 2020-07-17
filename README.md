@@ -33,10 +33,10 @@ For more parameters you should have a look at ...
 | `passbolt.config.registration` | Enable/Disable user can register | `false` |
 | `passbolt.config.salt` | Salt. Generate: ```openssl rand -base64 32``` | `"your salt"` |
 | `passbolt.config.gpgServerKeyFingerprint` | The GPG server key fingerprint. See [GPG key generation](#gpg-key-generation) | `"your gpg server key fingerprint"` |
-| `passbolt.config.serverkey` | The GPG server key (base64 encoded). If set the key will not be read from [file](secrets/gpg/serverkey.asc) | ` ` |
-| `passbolt.config.serverkey_private` | The GPG private server key (base64 encoded). If set the private key will not be read from [file](secrets/gpg/serverkey_private.asc) | ` ` |
+| `passbolt.config.serverkey` | The GPG server key. If set the key will not be read from [file](secrets/gpg/serverkey.asc) | ` ` |
+| `passbolt.config.serverkey_private` | The GPG private server key. If set the private key will not be read from [file](secrets/gpg/serverkey_private.asc) | ` ` |
 | `passbolt.config.license.enabled` | Set true if you own a license key. Add the license key in [secrets/pro-license/license](secrets/pro-license/license) | `false` |
-| `passbolt.config.license.key` | The license key (base64 encoded). If set the license key will not be read from [file](secrets/pro-license/license). | `false` |
+| `passbolt.config.license.key` | The license key. If set the license key will not be read from [file](secrets/pro-license/license). | `false` |
 | `passbolt.config.plugins.exportenabled` | Enable export plugin | `true` |
 | `passbolt.config.plugins.importenabled` | Enable import plugin | `true` |
 | `passbolt.config.email.enabled` | Enable/Disable sending emails transport | `false` |
