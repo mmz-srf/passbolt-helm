@@ -1,5 +1,5 @@
 dependencies:
   - name: mariadb
-    version: 7.3.14
-    repository: https://kubernetes-charts.storage.googleapis.com/
+    version: 7.6
+    repository: https://charts.bitnami.com/bitnami
     alias: db
