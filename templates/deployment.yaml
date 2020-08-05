@@ -49,6 +49,8 @@ spec:
             value: {{ .Values.passbolt.config.email.host }}
           - name: EMAIL_TRANSPORT_DEFAULT_PORT
             value: {{ .Values.passbolt.config.email.port | quote }}
+          - name: EMAIL_TRANSPORT_DEFAULT_TLS
+            value: {{ .Values.passbolt.config.email.tls }}
           - name: EMAIL_TRANSPORT_DEFAULT_TIMEOUT
             value: {{ .Values.passbolt.config.email.timeout | quote }}
           - name: EMAIL_TRANSPORT_DEFAULT_USERNAME
