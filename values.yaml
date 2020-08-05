@@ -43,8 +43,8 @@ passbolt:
 podSecurityContext: {}
 securityContext: {}
 
-# Database (dependency:mariadb, alias:db)
-db:
+# Database (dependency:mariadb)
+mariadb:
   replication:
     enabled: false
   db:

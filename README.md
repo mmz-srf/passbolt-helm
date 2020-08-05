@@ -54,10 +54,9 @@ For more parameters you should have a look at ...
 ### Database
 | Parameter | Description | Default |
 | - | - | - | 
-| `db.replication.enabled` | Enable mariadb replication. | `false` |
-| `db.db.name` | Name of the passbolt database | `passbolt` |
-| `db.db.user` | Username of the passbolt user | `passbolt` |
-| `db.db.password` | Passwort for the passbold database user | `passbolt` | 
+| `mariadb.db.name` | Name of the passbolt database | `passbolt` |
+| `mariadb.db.user` | Username of the passbolt user | `passbolt` |
+| `mariadb.db.password` | Passwort for the passbold database user | `passbolt` | 
 
 
 

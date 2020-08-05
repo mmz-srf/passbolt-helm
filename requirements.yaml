@@ -1,5 +1,4 @@
 dependencies:
   - name: mariadb
-    version: 7.6
+    version: 7.7.2
     repository: https://charts.bitnami.com/bitnami
-    alias: db
