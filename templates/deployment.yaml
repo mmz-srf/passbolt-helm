@@ -75,6 +75,11 @@ spec:
               containerPort: 80
               protocol: TCP
           volumeMounts:
+          {{- if .Values.passbolt.persistence.enabled }}
+            - mountPath: /var/www/passbolt/webroot/img
+              name: data
+              subPath: img
+          {{- end }}
             - name: gpg
               mountPath: /var/www/passbolt/config/gpg
               readOnly: true
@@ -99,6 +104,11 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
+      {{- if .Values.passbolt.persistence.enabled }}
+        - name: data
+          persistentVolumeClaim:
+            claimName: {{ .Release.Name }}-data
+        {{- end -}}
         - name: gpg
           secret:
             secretName: {{ template "passbolt-helm.fullname" . }}-gpg
