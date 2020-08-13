@@ -104,11 +104,11 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
-      {{- if .Values.passbolt.persistence.enabled }}
+        {{- if .Values.passbolt.persistence.enabled }}
         - name: data
           persistentVolumeClaim:
             claimName: {{ .Release.Name }}-data
-        {{- end -}}
+        {{- end }}
         - name: gpg
           secret:
             secretName: {{ template "passbolt-helm.fullname" . }}-gpg
