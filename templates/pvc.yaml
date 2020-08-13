@@ -2,7 +2,7 @@
 kind: PersistentVolumeClaim
 apiVersion: v1
 metadata:
-  name: {{ include "passbolt-helm.fullname" . }}
+  name: {{ include "passbolt-helm.fullname" . }}-data
   labels:
 {{ include "passbolt-helm.labels" . | indent 4 }}
 spec:
