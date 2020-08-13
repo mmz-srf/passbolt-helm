@@ -26,7 +26,7 @@ passbolt:
     ##   GKE, AWS & OpenStack)
     ##
     # storageClass: "-"
-    accessMode: ReadWriteOnce
+    accessMode: ReadWriteMany
     size: 1Gi
   config:
     debug: false
