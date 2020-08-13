@@ -33,6 +33,10 @@ For more parameters you should have a look at ...
 
 | Parameter | Description | Default |
 | - | - | - |
+| `passbolt.persistence.enabled` | Enable/Disable persistence Disk for uploaded Files (Avatars) | `true` |
+| `passbolt.persistence.storageClass` | Disk storageclass | `-` |
+| `passbolt.persistence.accessMode` | Disk access mode | `ReadWriteMany` |
+| `passbolt.persistence.size` | Disk size | `1Gi` |
 | `passbolt.config.debug` | Enable/Disable debug output in passbolt image | `false` |
 | `passbolt.config.registration` | Enable/Disable user can register | `false` |
 | `passbolt.config.salt` | Salt. Generate: ```openssl rand -base64 32``` | `"your salt"` |
