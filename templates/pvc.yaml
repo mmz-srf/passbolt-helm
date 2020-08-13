@@ -1,0 +1,21 @@
+{{- if and .Values.passbolt.persistence.enabled }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ include "passbolt-helm.fullname" . }}-data
+  labels:
+{{ include "passbolt-helm.labels" . | indent 4 }}
+spec:
+  accessModes:
+    - {{ .Values.passbolt.persistence.accessMode | quote }}
+  resources:
+    requests:
+      storage: {{ .Values.passbolt.persistence.size | quote }}
+{{- if .Values.passbolt.persistence.storageClass }}
+{{- if (eq "-" .Values.passbolt.persistence.storageClass) }}
+  storageClassName: ""
+{{- else }}
+  storageClassName: "{{ .Values.passbolt.persistence.storageClass }}"
+{{- end }}
+{{- end }}
+{{- end }}
