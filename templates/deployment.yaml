@@ -107,7 +107,7 @@ spec:
         {{- if .Values.passbolt.persistence.enabled }}
         - name: data
           persistentVolumeClaim:
-            claimName: {{ .Release.Name }}-data
+            claimName: {{ template "passbolt-helm.fullname" . }}-data
         {{- end }}
         - name: gpg
           secret:
