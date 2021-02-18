@@ -49,14 +49,18 @@ spec:
             value: {{ .Values.passbolt.config.email.host }}
           - name: EMAIL_TRANSPORT_DEFAULT_PORT
             value: {{ .Values.passbolt.config.email.port | quote }}
+          {{- if .Values.passbolt.config.email.tls }}
           - name: EMAIL_TRANSPORT_DEFAULT_TLS
             value: {{ .Values.passbolt.config.email.tls | quote }}
+          {{- end }}
           - name: EMAIL_TRANSPORT_DEFAULT_TIMEOUT
             value: {{ .Values.passbolt.config.email.timeout | quote }}
+          {{- if .Values.passbolt.config.email.username }}
           - name: EMAIL_TRANSPORT_DEFAULT_USERNAME
             value: {{ .Values.passbolt.config.email.username }}
           - name: EMAIL_TRANSPORT_DEFAULT_PASSWORD
             value: {{ .Values.passbolt.config.email.password }}
+          {{- end }}
           {{- end }}
           - name: PASSBOLT_REGISTRATION_PUBLIC
             value: {{ .Values.passbolt.config.registration | quote }}
