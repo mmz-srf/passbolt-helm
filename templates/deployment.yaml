@@ -97,14 +97,20 @@ spec:
             httpGet:
               path: /auth/login
               port: http
-            initialDelaySeconds: 60
-            timeoutSeconds: 10
+            failureThreshold: {{ .Values.passbolt.config.livenessProbe.failureThreshold }}
+            successThreshold: {{ .Values.passbolt.config.livenessProbe.successThreshold }}
+            periodSeconds: {{ .Values.passbolt.config.livenessProbe.periodSeconds }}
+            initialDelaySeconds: {{ .Values.passbolt.config.livenessProbe.initialDelaySeconds }}
+            timeoutSeconds: {{ .Values.passbolt.config.livenessProbe.timeoutSeconds }}
           readinessProbe:
             httpGet:
               path: /auth/login
               port: http
-            initialDelaySeconds: 60
-            timeoutSeconds: 10
+            failureThreshold: {{ .Values.passbolt.config.readinessProbe.failureThreshold }}
+            successThreshold: {{ .Values.passbolt.config.readinessProbe.successThreshold }}
+            periodSeconds: {{ .Values.passbolt.config.readinessProbe.periodSeconds }}
+            initialDelaySeconds: {{ .Values.passbolt.config.readinessProbe.initialDelaySeconds }}
+            timeoutSeconds: {{ .Values.passbolt.config.readinessProbe.timeoutSeconds }}
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
