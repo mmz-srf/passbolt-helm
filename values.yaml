@@ -33,9 +33,9 @@ passbolt:
     registration: false
     salt: "your salt"
     gpgServerKeyFingerprint: "your gpg server key fingerprint"
-    # serverkey_private: 
+    # serverkey_private:
     # serverkey:
-    license: 
+    license:
       enabled: false
       # key:
     plugins:
@@ -50,6 +50,18 @@ passbolt:
       timeout: 30
       username: username
       password: password
+    livenessProbe:
+      failureThreshold: 3
+      successThreshold: 1
+      periodSeconds: 10
+      initialDelaySeconds: 60
+      timeoutSeconds: 10
+    readinessProbe:
+      failureThreshold: 3
+      successThreshold: 1
+      periodSeconds: 10
+      initialDelaySeconds: 60
+      timeoutSeconds: 10
 
 # Pod security specific configurations. see deployment.yaml
 podSecurityContext: {}

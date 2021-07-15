@@ -13,7 +13,7 @@ For more parameters you should have a look at ...
 - the [values.yaml](https://github.com/helm/charts/blob/master/stable/mariadb/values.yaml) file of the mariadb helm chart
 - the [enviroment variables](https://github.com/passbolt/passbolt_docker/tree/master) of the passbold docker image.
 
-### General 
+### General
 
 | Parameter | Description | Default |
 | - | - | - |
@@ -29,7 +29,7 @@ For more parameters you should have a look at ...
 | `ingress.enabled` | Enable ingress | `true` |
 | `ingress.host` | Ingress host | `passbolt.yourdomain.com` |
 
-### Passbolt 
+### Passbolt
 
 | Parameter | Description | Default |
 | - | - | - |
@@ -54,13 +54,24 @@ For more parameters you should have a look at ...
 | `passbolt.config.email.timeout` | Email server timeout | `30` |
 | `passbolt.config.email.username` | Username for email server auth | `username` |
 | `passbolt.config.email.password` | Password for email server auth | `password` |
+| `passbolt.config.livenessProbe.failureThreshold` | failureThreshold for livenessProbe | `3` |
+| `passbolt.config.livenessProbe.successThreshold` | successThreshold for livenessProbe | `1` |
+| `passbolt.config.livenessProbe.periodSeconds` | periodSeconds for livenessProbe | `10` |
+| `passbolt.config.livenessProbe.initialDelaySeconds` | initialDelaySeconds for livenessProbe | `60` |
+| `passbolt.config.livenessProbe.timeoutSeconds` | timeoutSeconds for livenessProbe | `10` |
+| `passbolt.config.readinessProbe.failureThreshold` | failureThreshold for readinessProbe | `3` |
+| `passbolt.config.readinessProbe.successThreshold` | successThreshold for readinessProbe | `1` |
+| `passbolt.config.readinessProbe.periodSeconds` | periodSeconds for readinessProbe | `10` |
+| `passbolt.config.readinessProbe.initialDelaySeconds` | initialDelaySeconds for readinessProbe | `60` |
+| `passbolt.config.readinessProbe.timeoutSeconds` | timeoutSeconds for readinessProbe | `10` |
+
 
 ### Database
 | Parameter | Description | Default |
-| - | - | - | 
+| - | - | - |
 | `mariadb.db.name` | Name of the passbolt database | `passbolt` |
 | `mariadb.db.user` | Username of the passbolt user | `passbolt` |
-| `mariadb.db.password` | Passwort for the passbold database user | `passbolt` | 
+| `mariadb.db.password` | Passwort for the passbold database user | `passbolt` |
 
 
 
@@ -85,7 +96,7 @@ For more parameters you should have a look at ...
         gpg --gen-key --batch gpg-server-key.conf
 
 
-3. List GPG keys 
+3. List GPG keys
 
         gpg --list-secret-keys --keyid-format LONG
 
@@ -98,7 +109,7 @@ For more parameters you should have a look at ...
         gpg --armor --export-secret-keys $KEY_ID > serverkey_private.asc
 
 
-:warning: Copy the serverkey.asc and serverkey_private.asc files to secrets/gpg. 
+:warning: Copy the serverkey.asc and serverkey_private.asc files to secrets/gpg.
 
 
 ## Create first passbolt admin user
