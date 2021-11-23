@@ -13,6 +13,7 @@ image:
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
+podLabels: {}
 
 # Passbolt configuration
 passbolt:
