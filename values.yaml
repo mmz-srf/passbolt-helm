@@ -76,6 +76,9 @@ mariadb:
   replication:
     enabled: false
   db:
+    # define external host, when mariadb is disabled
+    host: internal
+
     name: passbolt
     user: passbolt
     password: passbolt
@@ -95,7 +98,7 @@ ingress:
   host: "passbolt.yourdomain.com"
   tls:
     enabled: false
-  #  secretName: chart-example-tls
+#    secretName: chart-example-tls
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
