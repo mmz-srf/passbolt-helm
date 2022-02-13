@@ -90,6 +90,9 @@ spec:
             - name: gpg
               mountPath: /etc/passbolt/gpg
               readOnly: true
+            - name: jwt
+              mountPath: /etc/passbolt/jwt
+              readOnly: true
           {{- if .Values.passbolt.config.license.enabled }}
             - name: license
               mountPath: /etc/passbolt/license
@@ -125,6 +128,9 @@ spec:
         - name: gpg
           secret:
             secretName: {{ template "passbolt-helm.fullname" . }}-gpg
+        - name: jwt
+          secret:
+            secretName: {{ template "passbolt-helm.fullname" . }}-jwt
         {{- if .Values.passbolt.config.license.enabled }}
         - name: license
           secret:

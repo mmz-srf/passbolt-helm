@@ -36,6 +36,8 @@ passbolt:
     gpgServerKeyFingerprint: "your gpg server key fingerprint"
     # serverkey_private:
     # serverkey:
+    # jwtkey:
+    # jwtcert:
     license:
       enabled: false
       # key:
@@ -70,6 +72,7 @@ securityContext: {}
 
 # Database (dependency:mariadb)
 mariadb:
+  enabled: true
   replication:
     enabled: false
   db:
