@@ -10,7 +10,7 @@ This helm chart installs the [passbolt container](https://github.com/passbolt/pa
 
 For more parameters you should have a look at ...
 - the [values.yaml](values.yaml) file of this helm chart
-- the [values.yaml](https://github.com/helm/charts/blob/master/stable/mariadb/values.yaml) file of the mariadb helm chart
+- the [values.yaml](https://github.com/helm/charts/blob/master/stable/mariadb/values.yaml) file of the mariadb helm chart, when enabled
 - the [enviroment variables](https://github.com/passbolt/passbolt_docker/tree/master) of the passbold docker image.
 
 ### General
@@ -43,6 +43,8 @@ For more parameters you should have a look at ...
 | `passbolt.config.gpgServerKeyFingerprint` | The GPG server key fingerprint. See [GPG key generation](#gpg-key-generation) | `"your gpg server key fingerprint"` |
 | `passbolt.config.serverkey` | The GPG server key. If set the key will not be read from [file](secrets/gpg/serverkey.asc) | ` ` |
 | `passbolt.config.serverkey_private` | The GPG private server key. If set the private key will not be read from [file](secrets/gpg/serverkey_private.asc) | ` ` |
+| `passbolt.config.jwtkey` | The GPG server key. If set the key will not be read from [file](secrets/gpg/serverkey.asc) | ` ` |
+| `passbolt.config.jwtcert` | The GPG private server key. If set the private key will not be read from [file](secrets/gpg/serverkey_private.asc) | ` ` |
 | `passbolt.config.license.enabled` | Set true if you own a license key. Add the license key in [secrets/pro-license/license](secrets/pro-license/license) | `false` |
 | `passbolt.config.license.key` | The license key. If set the license key will not be read from [file](secrets/pro-license/license). | `false` |
 | `passbolt.config.plugins.exportenabled` | Enable export plugin | `true` |
@@ -64,11 +66,53 @@ For more parameters you should have a look at ...
 | `passbolt.config.readinessProbe.periodSeconds` | periodSeconds for readinessProbe | `10` |
 | `passbolt.config.readinessProbe.initialDelaySeconds` | initialDelaySeconds for readinessProbe | `60` |
 | `passbolt.config.readinessProbe.timeoutSeconds` | timeoutSeconds for readinessProbe | `10` |
+### Usage
 
+ 1. Create custom values.yaml, probably values.custom.yaml
+ 2. Create gpg and jwt keys
+ 3. Execute: 
+    ```
+    helm install \
+      -f values.custom.yaml \
+      --set-file passbolt.config.serverkey=./gpg/serverkey.asc \
+      --set-file passbolt.config.serverkey_private=./gpg/serverkey_private.asc \
+      --set-file passbolt.config.jwtkey=./jwt/jwt.key \
+      --set-file passbolt.config.jwtcert=./jwt/jwt.pem \
+      passbolt ../passbolt-helm/
+    ```
 
+### Example values.custom.yaml
+```
+ingress:
+  host: "passbolt.example.com"
+  tls:
+    secretName: tls-passbolt-example-com
+    
+passbolt:
+  config:
+    gpgServerKeyFingerprint: ABC123ABC123ABC123ABC123ABC123ABC12
+    registration: true
+    email:
+      enabled: false
+      from: sender@example.com
+      host: mailserver.com
+      port: 587
+      tls: true
+      timeout: 30
+      username: username
+      password: password
+    
+mariadb:
+  db:
+    name: passbolt
+    user: passbolt
+    password: password
+```    
 ### Database
 | Parameter | Description | Default |
 | - | - | - |
+| `mariadb.enabled` | Can be used to false to define an existing external database | `true` |
+| `mariadb.db.host` | Name of the passbolt database | `passbolt` |
 | `mariadb.db.name` | Name of the passbolt database | `passbolt` |
 | `mariadb.db.user` | Username of the passbolt user | `passbolt` |
 | `mariadb.db.password` | Passwort for the passbold database user | `passbolt` |
