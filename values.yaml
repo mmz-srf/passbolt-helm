@@ -10,6 +10,7 @@ image:
   tag: latest
   pullPolicy: IfNotPresent
 
+topologySpreadConstraints: []
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
@@ -32,6 +33,13 @@ passbolt:
   config:
     debug: false
     registration: false
+    session:
+      # How many seconds a login is done
+      lifetime: 3600
+      redis:
+        enabled: false
+        service: redis
+    # Generate with https://pwgen.io and 32 chars
     salt: "your salt"
     gpgServerKeyFingerprint: "your gpg server key fingerprint"
     # serverkey_private:
