@@ -35,17 +35,9 @@ spec:
           service:
             name: {{ template "passbolt-helm.fullname" . }}
             port:
-            {{- if .Values.ingress.tls.enabled }}
-              number: {{ .port | default 443 }}
-            {{- else }}
               number: {{ .port | default 80 }}
-            {{- end }}
         {{- else }}
           serviceName:  {{ template "passbolt-helm.fullname" . }}
-          {{- if .Values.ingress.tls.enabled }}
-          servicePort: {{ .Values.service.port | default "443" }}
-          {{- else }}
           servicePort: {{ .Values.service.port | default "80" }}
-          {{- end }}
         {{- end }}
 {{- end }}
