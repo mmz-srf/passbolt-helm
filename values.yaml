@@ -40,7 +40,6 @@ passbolt:
         # If you enable redis, you need to provide your own redis endpoint
         enabled: false
         service: redis
-    # Generate with https://pwgen.io and 32 chars
     salt: "your salt"
     gpgServerKeyFingerprint: "your gpg server key fingerprint"
     # serverkey_private:
