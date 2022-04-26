@@ -114,7 +114,7 @@ mariadb:
 ### Database
 | Parameter | Description | Default |
 | - | - | - |
-| `mariadb.enabled` | Can be used to false to define an existing external database | `true` |
+| `mariadb.enabled` | Set to false to use an existing external database | `true` |
 | `mariadb.db.host` | Name of the passbolt database | `passbolt` |
 | `mariadb.db.name` | Name of the passbolt database | `passbolt` |
 | `mariadb.db.user` | Username of the passbolt user | `passbolt` |
