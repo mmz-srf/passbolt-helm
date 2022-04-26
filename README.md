@@ -47,6 +47,9 @@ For more parameters you should have a look at ...
 | `passbolt.config.jwtcert` | The GPG private server key. If set the private key will not be read from [file](secrets/gpg/serverkey_private.asc) | ` ` |
 | `passbolt.config.license.enabled` | Set true if you own a license key. Add the license key in [secrets/pro-license/license](secrets/pro-license/license) | `false` |
 | `passbolt.config.license.key` | The license key. If set the license key will not be read from [file](secrets/pro-license/license). | `false` |
+| `passbolt.config.php.session.lifetime` | Lifetime of your user sessions in seconds | `3600` |
+| `passbolt.config.php.session.redis.enabled` | Enable this if you want to provide your own redis as a session backend | `false` |
+| `passbolt.config.php.session.redis.service` | The URL of your redis endpoint, only useful if enabled | `redis` |
 | `passbolt.config.plugins.exportenabled` | Enable export plugin | `true` |
 | `passbolt.config.plugins.importenabled` | Enable import plugin | `true` |
 | `passbolt.config.email.enabled` | Enable/Disable sending emails transport | `false` |
