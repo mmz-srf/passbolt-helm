@@ -33,13 +33,14 @@ passbolt:
   config:
     debug: false
     registration: false
-    session:
-      # Session liftime in seconds
-      lifetime: 3600
-      redis:
-        # If you enable redis, you need to provide your own redis endpoint
-        enabled: false
-        service: redis
+    php:
+      session:
+        # Session liftime in seconds
+        lifetime: 3600
+        redis:
+          # If you enable redis, you need to provide your own redis endpoint
+          enabled: false
+          service: redis
     salt: "your salt"
     gpgServerKeyFingerprint: "your gpg server key fingerprint"
     # serverkey_private:
