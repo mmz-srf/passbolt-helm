@@ -103,10 +103,10 @@ spec:
             - name: gpg
               mountPath: /etc/passbolt/gpg
               readOnly: true
-           # - name: passbolt-php-ini-config
-           #   mountPath: /etc/php/7.4/fpm/conf.d/passbolt.ini
-           #   subPath: passbolt.ini
-           #   readOnly: true
+            - name: passbolt-php-ini-config
+              mountPath: /etc/php/7.4/fpm/conf.d/passbolt.ini
+              subPath: passbolt.ini
+              readOnly: true
             - name: jwt
               mountPath: /etc/passbolt/jwt
               readOnly: true

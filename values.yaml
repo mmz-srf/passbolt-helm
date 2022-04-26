@@ -34,9 +34,10 @@ passbolt:
     debug: false
     registration: false
     session:
-      # How many seconds a login is done
+      # Session liftime in seconds
       lifetime: 3600
       redis:
+        # If you enable redis, you need to provide your own redis endpoint
         enabled: false
         service: redis
     # Generate with https://pwgen.io and 32 chars
