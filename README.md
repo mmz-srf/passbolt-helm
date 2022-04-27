@@ -43,8 +43,8 @@ For more parameters you should have a look at ...
 | `passbolt.config.gpgServerKeyFingerprint` | The GPG server key fingerprint. See [GPG key generation](#gpg-key-generation) | `"your gpg server key fingerprint"` |
 | `passbolt.config.serverkey` | The GPG server key. If set the key will not be read from [file](secrets/gpg/serverkey.asc) | ` ` |
 | `passbolt.config.serverkey_private` | The GPG private server key. If set the private key will not be read from [file](secrets/gpg/serverkey_private.asc) | ` ` |
-| `passbolt.config.jwtkey` | The GPG server key. If set the key will not be read from [file](secrets/gpg/serverkey.asc) | ` ` |
-| `passbolt.config.jwtcert` | The GPG private server key. If set the private key will not be read from [file](secrets/gpg/serverkey_private.asc) | ` ` |
+| `passbolt.config.jwtkey` | The JWT key. If set the key will not be read from [file](secrets/jwt/jwt.key) | ` ` |
+| `passbolt.config.jwtcert` | The JWT certificate. If set the cert will not be read from [file](secrets/jwt/jwt.pem) | ` ` |
 | `passbolt.config.license.enabled` | Set true if you own a license key. Add the license key in [secrets/pro-license/license](secrets/pro-license/license) | `false` |
 | `passbolt.config.license.key` | The license key. If set the license key will not be read from [file](secrets/pro-license/license). | `false` |
 | `passbolt.config.php.session.lifetime` | Lifetime of your user sessions in seconds | `3600` |
@@ -69,48 +69,7 @@ For more parameters you should have a look at ...
 | `passbolt.config.readinessProbe.periodSeconds` | periodSeconds for readinessProbe | `10` |
 | `passbolt.config.readinessProbe.initialDelaySeconds` | initialDelaySeconds for readinessProbe | `60` |
 | `passbolt.config.readinessProbe.timeoutSeconds` | timeoutSeconds for readinessProbe | `10` |
-### Usage
 
- 1. Create custom values.yaml, probably values.custom.yaml
- 2. Create gpg and jwt keys
- 3. Execute: 
-    ```
-    helm install \
-      -f values.custom.yaml \
-      --set-file passbolt.config.serverkey=./gpg/serverkey.asc \
-      --set-file passbolt.config.serverkey_private=./gpg/serverkey_private.asc \
-      --set-file passbolt.config.jwtkey=./jwt/jwt.key \
-      --set-file passbolt.config.jwtcert=./jwt/jwt.pem \
-      passbolt ../passbolt-helm/
-    ```
-
-### Example values.custom.yaml
-```
-ingress:
-  host: "passbolt.example.com"
-  tls:
-    secretName: tls-passbolt-example-com
-    
-passbolt:
-  config:
-    gpgServerKeyFingerprint: ABC123ABC123ABC123ABC123ABC123ABC12
-    registration: true
-    email:
-      enabled: false
-      from: sender@example.com
-      host: mailserver.com
-      port: 587
-      tls: true
-      timeout: 30
-      username: username
-      password: password
-    
-mariadb:
-  db:
-    name: passbolt
-    user: passbolt
-    password: password
-```    
 ### Database
 | Parameter | Description | Default |
 | - | - | - |
