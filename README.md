@@ -79,9 +79,7 @@ For more parameters you should have a look at ...
 | `mariadb.db.user` | Username of the passbolt user | `passbolt` |
 | `mariadb.db.password` | Passwort for the passbold database user | `passbolt` |
 
-
-
-## GPG key genereation
+## GPG key generation
 
 1. Create GPG config file gpg-server-key.conf with the following content
 
@@ -117,6 +115,9 @@ For more parameters you should have a look at ...
 
 :warning: Copy the serverkey.asc and serverkey_private.asc files to secrets/gpg.
 
+## JWT key generation
+
+tbd
 
 ## Create first passbolt admin user
 
