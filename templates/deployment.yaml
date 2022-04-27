@@ -38,11 +38,10 @@ spec:
           env:
           - name: APP_FULL_BASE_URL
             value: https://{{ .Values.ingress.host }}
-          {{- if .Values.mariadb.enabled }}
           - name: DATASOURCES_DEFAULT_HOST
+          {{- if .Values.mariadb.enabled }}
             value: {{ .Release.Name }}-mariadb
           {{- else }}
-          - name: DATASOURCES_DEFAULT_HOST
             value: {{ .Values.mariadb.db.host }}
           {{- end }}
           - name: DATASOURCES_DEFAULT_USERNAME
