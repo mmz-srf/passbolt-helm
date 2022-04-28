@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "passbolt-helm.fullname" . }}-phpini
+data:
+  passbolt.ini: |
+    session.gc_maxlifetime={{ .Values.passbolt.config.php.session.lifetime }}
+    {{- if .Values.passbolt.config.php.session.redis.enabled }}
+    session.save_handler = redis
+    session.save_path = "tcp://{{ .Values.passbolt.config.php.session.redis.service }}:6379"
+    {{- end }}

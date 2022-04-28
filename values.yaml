@@ -10,6 +10,7 @@ image:
   tag: latest
   pullPolicy: IfNotPresent
 
+topologySpreadConstraints: []
 imagePullSecrets: []
 nameOverride: ""
 fullnameOverride: ""
@@ -32,10 +33,20 @@ passbolt:
   config:
     debug: false
     registration: false
+    php:
+      session:
+        # Session liftime in seconds
+        lifetime: 3600
+        redis:
+          # If you enable redis, you need to provide your own redis endpoint
+          enabled: false
+          service: redis
     salt: "your salt"
     gpgServerKeyFingerprint: "your gpg server key fingerprint"
     # serverkey_private:
     # serverkey:
+    # jwtkey:
+    # jwtcert:
     license:
       enabled: false
       # key:
@@ -70,9 +81,13 @@ securityContext: {}
 
 # Database (dependency:mariadb)
 mariadb:
+  enabled: true
   replication:
     enabled: false
   db:
+    # define external host, when mariadb is disabled
+    host: internal
+
     name: passbolt
     user: passbolt
     password: passbolt
@@ -92,7 +107,7 @@ ingress:
   host: "passbolt.yourdomain.com"
   tls:
     enabled: false
-  #  secretName: chart-example-tls
+#    secretName: chart-example-tls
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious

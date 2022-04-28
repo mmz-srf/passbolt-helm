@@ -19,6 +19,10 @@ spec:
         {{- toYaml .Values.podLabels | nindent 8 }}
         {{- end }}
     spec:
+    {{- with .Values.topologySpreadConstraints }}
+      topologySpreadConstraints:
+        {{- toYaml . | nindent 8 }}
+    {{- end }}
     {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
         {{- toYaml . | nindent 8 }}
@@ -35,14 +39,22 @@ spec:
           - name: APP_FULL_BASE_URL
             value: https://{{ .Values.ingress.host }}
           - name: DATASOURCES_DEFAULT_HOST
+          {{- if .Values.mariadb.enabled }}
             value: {{ .Release.Name }}-mariadb
+          {{- else }}
+            value: {{ .Values.mariadb.db.host }}
+          {{- end }}
           - name: DATASOURCES_DEFAULT_USERNAME
             value: {{ .Values.mariadb.db.user }}
           - name: DATASOURCES_DEFAULT_PASSWORD
+          {{- if .Values.mariadb.enabled }}
             valueFrom:
               secretKeyRef:
                 name: {{ .Release.Name }}-mariadb
                 key: mariadb-password
+          {{- else }}
+            value: {{ .Values.mariadb.db.password }}          
+          {{- end }}      
           - name: DATASOURCES_DEFAULT_DATABASE
             value: {{ .Values.mariadb.db.name }}
           {{- if .Values.passbolt.config.email.enabled }}
@@ -90,6 +102,13 @@ spec:
             - name: gpg
               mountPath: /etc/passbolt/gpg
               readOnly: true
+            - name: passbolt-php-ini-config
+              mountPath: /etc/php/7.4/fpm/conf.d/passbolt.ini
+              subPath: passbolt.ini
+              readOnly: true
+            - name: jwt
+              mountPath: /etc/passbolt/jwt
+              readOnly: true
           {{- if .Values.passbolt.config.license.enabled }}
             - name: license
               mountPath: /etc/passbolt/license
@@ -122,9 +141,15 @@ spec:
           persistentVolumeClaim:
             claimName: {{ template "passbolt-helm.fullname" . }}-data
         {{- end }}
+        - name: passbolt-php-ini-config
+          configMap:
+            name: {{ template "passbolt-helm.fullname" . }}-phpini
         - name: gpg
           secret:
             secretName: {{ template "passbolt-helm.fullname" . }}-gpg
+        - name: jwt
+          secret:
+            secretName: {{ template "passbolt-helm.fullname" . }}-jwt
         {{- if .Values.passbolt.config.license.enabled }}
         - name: license
           secret:

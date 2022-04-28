@@ -10,7 +10,7 @@ This helm chart installs the [passbolt container](https://github.com/passbolt/pa
 
 For more parameters you should have a look at ...
 - the [values.yaml](values.yaml) file of this helm chart
-- the [values.yaml](https://github.com/helm/charts/blob/master/stable/mariadb/values.yaml) file of the mariadb helm chart
+- the [values.yaml](https://github.com/helm/charts/blob/master/stable/mariadb/values.yaml) file of the mariadb helm chart, when enabled
 - the [enviroment variables](https://github.com/passbolt/passbolt_docker/tree/master) of the passbold docker image.
 
 ### General
@@ -43,8 +43,13 @@ For more parameters you should have a look at ...
 | `passbolt.config.gpgServerKeyFingerprint` | The GPG server key fingerprint. See [GPG key generation](#gpg-key-generation) | `"your gpg server key fingerprint"` |
 | `passbolt.config.serverkey` | The GPG server key. If set the key will not be read from [file](secrets/gpg/serverkey.asc) | ` ` |
 | `passbolt.config.serverkey_private` | The GPG private server key. If set the private key will not be read from [file](secrets/gpg/serverkey_private.asc) | ` ` |
+| `passbolt.config.jwtkey` | The JWT key. If set the key will not be read from [file](secrets/jwt/jwt.key) | ` ` |
+| `passbolt.config.jwtcert` | The JWT certificate. If set the cert will not be read from [file](secrets/jwt/jwt.pem) | ` ` |
 | `passbolt.config.license.enabled` | Set true if you own a license key. Add the license key in [secrets/pro-license/license](secrets/pro-license/license) | `false` |
 | `passbolt.config.license.key` | The license key. If set the license key will not be read from [file](secrets/pro-license/license). | `false` |
+| `passbolt.config.php.session.lifetime` | Lifetime of your user sessions in seconds | `3600` |
+| `passbolt.config.php.session.redis.enabled` | Enable this if you want to provide your own redis as a session backend | `false` |
+| `passbolt.config.php.session.redis.service` | The URL of your redis endpoint, only useful if enabled | `redis` |
 | `passbolt.config.plugins.exportenabled` | Enable export plugin | `true` |
 | `passbolt.config.plugins.importenabled` | Enable import plugin | `true` |
 | `passbolt.config.email.enabled` | Enable/Disable sending emails transport | `false` |
@@ -65,17 +70,16 @@ For more parameters you should have a look at ...
 | `passbolt.config.readinessProbe.initialDelaySeconds` | initialDelaySeconds for readinessProbe | `60` |
 | `passbolt.config.readinessProbe.timeoutSeconds` | timeoutSeconds for readinessProbe | `10` |
 
-
 ### Database
 | Parameter | Description | Default |
 | - | - | - |
+| `mariadb.enabled` | Set to false to use an existing external database | `true` |
+| `mariadb.db.host` | Name of the passbolt database | `passbolt` |
 | `mariadb.db.name` | Name of the passbolt database | `passbolt` |
 | `mariadb.db.user` | Username of the passbolt user | `passbolt` |
 | `mariadb.db.password` | Passwort for the passbold database user | `passbolt` |
 
-
-
-## GPG key genereation
+## GPG key generation
 
 1. Create GPG config file gpg-server-key.conf with the following content
 
@@ -111,6 +115,29 @@ For more parameters you should have a look at ...
 
 :warning: Copy the serverkey.asc and serverkey_private.asc files to secrets/gpg.
 
+## JWT key generation
+
+1. Create a private key
+
+        openssl genrsa -out secrets/jwt/jwt.key 4096
+
+2. Extract the public key
+
+        openssl rsa -in secrets/jwt/jwt.key -outform PEM -pubout -out secrets/jwt/jwt.pem
+
+### Usage
+
+ 1. Create custom values.yaml
+ 2. Create gpg and jwt keys
+ 3. Execute:
+    ```
+    helm install \
+      -f values.yaml \
+      --set-file passbolt.config.serverkey=./gpg/serverkey.asc \
+      --set-file passbolt.config.serverkey_private=./gpg/serverkey_private.asc \
+      --set-file passbolt.config.jwtkey=./jwt/jwt.key \
+      --set-file passbolt.config.jwtcert=./jwt/jwt.pem \
+      passbolt ../passbolt-helm/
 
 ## Create first passbolt admin user
 
