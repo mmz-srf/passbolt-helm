@@ -117,7 +117,27 @@ For more parameters you should have a look at ...
 
 ## JWT key generation
 
-tbd
+1. Create a private key
+
+        openssl genrsa -out secrets/jwt/jwt.key 4096
+
+2. Extract the public key
+
+        openssl rsa -in secrets/jwt/jwt.key -outform PEM -pubout -out secrets/jwt/jwt.pem
+
+### Usage
+
+ 1. Create custom values.yaml
+ 2. Create gpg and jwt keys
+ 3. Execute:
+    ```
+    helm install \
+      -f values.yaml \
+      --set-file passbolt.config.serverkey=./gpg/serverkey.asc \
+      --set-file passbolt.config.serverkey_private=./gpg/serverkey_private.asc \
+      --set-file passbolt.config.jwtkey=./jwt/jwt.key \
+      --set-file passbolt.config.jwtcert=./jwt/jwt.pem \
+      passbolt ../passbolt-helm/
 
 ## Create first passbolt admin user
 
