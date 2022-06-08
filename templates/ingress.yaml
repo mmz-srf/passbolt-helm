@@ -1,7 +1,7 @@
 {{- if .Values.ingress.enabled -}}
 {{- if semverCompare ">=1.20-0" .Capabilities.KubeVersion.GitVersion -}}
 apiVersion: networking.k8s.io/v1
-{{- else if semverCompare ">=1.14-0" .Capabilities.KubeVersion.GitVersion -}}
+{{- else if semverCompare ">=1.14-0, <1.20-0" .Capabilities.KubeVersion.GitVersion -}}
 apiVersion: networking.k8s.io/v1beta1
 {{- else -}}
 apiVersion: extensions/v1beta1
@@ -15,6 +15,7 @@ metadata:
   annotations:
     {{- toYaml . | nindent 4 }}
   {{- end }}
+    #kubeversion: {{ .Capabilities.KubeVersion.GitVersion }}
 spec:
   {{- if .Values.ingress.tls.enabled }}
   tls:
