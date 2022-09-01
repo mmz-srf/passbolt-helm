@@ -4,11 +4,11 @@
 
 replicaCount: 1
 
-# Image
 image:
-  repository: "passbolt/passbolt"
-  tag: latest
+  repository: passbolt/passbolt
   pullPolicy: IfNotPresent
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "latest-ce"
 
 topologySpreadConstraints: []
 imagePullSecrets: []
@@ -28,7 +28,7 @@ passbolt:
     ##   GKE, AWS & OpenStack)
     ##
     # storageClass: "-"
-    accessMode: ReadWriteMany
+    accessMode: ReadWriteOnce
     size: 1Gi
   config:
     debug: false
@@ -42,7 +42,7 @@ passbolt:
           enabled: false
           service: redis
     salt: "your salt"
-    gpgServerKeyFingerprint: "your gpg server key fingerprint"
+    gpgServerKeyFingerprint: "A3132A7FB02319AFC24E5605AEC2A8D23CE6DFEF"
     # serverkey_private:
     # serverkey:
     # jwtkey:
@@ -75,39 +75,74 @@ passbolt:
       initialDelaySeconds: 60
       timeoutSeconds: 10
 
-# Pod security specific configurations. see deployment.yaml
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
+  # The name of the service account to use.
+  # If not set and create is true, a name is generated using the fullname template
+  name: ""
+
+podAnnotations: {}
+
 podSecurityContext: {}
+  # fsGroup: 2000
+
 securityContext: {}
+  # capabilities:
+  #   drop:
+  #   - ALL
+  # readOnlyRootFilesystem: true
+  # runAsNonRoot: true
+  # runAsUser: 1000
 
 # Database (dependency:mariadb)
 mariadb:
   enabled: true
-  replication:
-    enabled: false
+  ## @param architecture MariaDB architecture (`standalone` or `replication`)
+  architecture: standalone
   auth:
-    # define external host, when mariadb is disabled
-    host: internal
-    rootPassword: "<pwgen -n 64 1>"
+    database: "passboltdb"
+    username: "passboltuser"
+    password: "passboltpassword"
 
-    database: "passbolt"
-    username: "passbolt"
-    password: "<pwgen -n 64 1>"
+mariadb-galera:
+  enabled: false
+  db:
+    user: "passboltuser"
+    password: "passboltpassword"
+    name: "passboltdb"
+
+redis:
+  enabled: false
 
 # Service
 service:
   type: ClusterIP
   port: 80
 
-# Ingress
+podDisruptionBudget:
+  enabled: false
+  rule:
+    type: minAvailable
+    value: 1
+
 ingress:
   enabled: true
+  className: ""
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
-  host: "passbolt.yourdomain.com"
-  tls:
-    enabled: false
-#    secretName: chart-example-tls
+  hosts:
+    - host: localhost
+      paths:
+        - path: /
+          pathType: ImplementationSpecific
+  tls: []
+  #  - secretName: chart-example-tls
+  #    hosts:
+  #      - chart-example.local
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -120,6 +155,13 @@ resources: {}
   # requests:
   #   cpu: 100m
   #   memory: 128Mi
+
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
 
 nodeSelector: {}
 

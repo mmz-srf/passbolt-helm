@@ -11,11 +11,11 @@ spec:
   resources:
     requests:
       storage: {{ .Values.passbolt.persistence.size | quote }}
-{{- if .Values.passbolt.persistence.storageClass }}
-{{- if (eq "-" .Values.passbolt.persistence.storageClass) }}
+  {{- if .Values.passbolt.persistence.storageClass }}
+    {{- if (eq "-" .Values.passbolt.persistence.storageClass) }}
   storageClassName: ""
-{{- else }}
+    {{- else }}
   storageClassName: "{{ .Values.passbolt.persistence.storageClass }}"
-{{- end }}
-{{- end }}
+    {{- end }}
+  {{- end }}
 {{- end }}

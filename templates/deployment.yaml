@@ -37,7 +37,8 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
           - name: APP_FULL_BASE_URL
-            value: https://{{ .Values.ingress.host }}
+            value: http://192.168.56.10
+            #value: https://{{ .Values.ingress.host }}
           - name: DATASOURCES_DEFAULT_HOST
           {{- if .Values.mariadb.enabled }}
             value: {{ .Release.Name }}-mariadb
