@@ -8,7 +8,7 @@ image:
   repository: passbolt/passbolt
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "latest-ce"
+  tag: "latest-pro"
 
 topologySpreadConstraints: []
 imagePullSecrets: []
@@ -18,18 +18,6 @@ podLabels: {}
 
 # Passbolt configuration
 passbolt:
-  persistence:
-    enabled: true
-    ## passbolt application Persistent Volume Storage Class
-    ## If defined, storageClassName: <storageClass>
-    ## If set to "-", storageClassName: "", which disables dynamic provisioning
-    ## If undefined (the default) or set to null, no storageClassName spec is
-    ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
-    ##   GKE, AWS & OpenStack)
-    ##
-    # storageClass: "-"
-    accessMode: ReadWriteOnce
-    size: 1Gi
   config:
     debug: false
     registration: false
@@ -39,8 +27,8 @@ passbolt:
         lifetime: 3600
         redis:
           # If you enable redis, you need to provide your own redis endpoint
-          enabled: false
-          service: redis
+          enabled: true
+          service: passbolt-redis-master
     salt: "your salt"
     gpgServerKeyFingerprint: "A3132A7FB02319AFC24E5605AEC2A8D23CE6DFEF"
     # serverkey_private:
@@ -48,7 +36,7 @@ passbolt:
     # jwtkey:
     # jwtcert:
     license:
-      enabled: false
+      enabled: true
       # key:
     plugins:
       exportenabled: true
@@ -66,13 +54,13 @@ passbolt:
       failureThreshold: 3
       successThreshold: 1
       periodSeconds: 10
-      initialDelaySeconds: 60
+      initialDelaySeconds: 30
       timeoutSeconds: 10
     readinessProbe:
       failureThreshold: 3
       successThreshold: 1
       periodSeconds: 10
-      initialDelaySeconds: 60
+      initialDelaySeconds: 30
       timeoutSeconds: 10
 
 serviceAccount:
@@ -101,21 +89,29 @@ securityContext: {}
 mariadb:
   enabled: false
   ## @param architecture MariaDB architecture (`standalone` or `replication`)
-  architecture: standalone
+  architecture: replication
   auth:
+    rootPassword: "passboltmariadbrootpassword"
     database: "passboltmariadb"
     username: "passboltmariadbuser"
     password: "passboltmariadbpassword"
 
 mariadb-galera:
   enabled: true
+  rootUser:
+    password: "passboltgalerarootpassword"
+  galera:  
+    mariabackup:
+      password: "passboltgaleramariabackuppassword"
   db:
     user: "passboltgalerauser"
     password: "passboltgalerapassword"
     name: "passboltgaleradb"
 
 redis:
-  enabled: false
+  enabled: true
+  auth:
+    password: "redispassword"
 
 # Service
 service:
