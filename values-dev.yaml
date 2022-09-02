@@ -6,7 +6,7 @@ ingress:
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: 192.168.10.56
+    - host: 192.168.56.10
       scheme: http
       paths:
         - path: /
