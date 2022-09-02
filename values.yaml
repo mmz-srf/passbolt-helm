@@ -99,20 +99,20 @@ securityContext: {}
 
 # Database (dependency:mariadb)
 mariadb:
-  enabled: true
+  enabled: false
   ## @param architecture MariaDB architecture (`standalone` or `replication`)
   architecture: standalone
   auth:
-    database: "passboltdb"
-    username: "passboltuser"
-    password: "passboltpassword"
+    database: "passboltmariadb"
+    username: "passboltmariadbuser"
+    password: "passboltmariadbpassword"
 
 mariadb-galera:
-  enabled: false
+  enabled: true
   db:
-    user: "passboltuser"
-    password: "passboltpassword"
-    name: "passboltdb"
+    user: "passboltgalerauser"
+    password: "passboltgalerapassword"
+    name: "passboltgaleradb"
 
 redis:
   enabled: false
@@ -136,6 +136,7 @@ ingress:
     # kubernetes.io/tls-acme: "true"
   hosts:
     - host: localhost
+      scheme: http
       paths:
         - path: /
           pathType: ImplementationSpecific

@@ -37,27 +37,41 @@ spec:
           imagePullPolicy: {{ .Values.image.pullPolicy }}
           env:
           - name: APP_FULL_BASE_URL
-            value: http://192.168.56.10
-            #value: https://{{ .Values.ingress.host }}
+            value: {{ index .Values.ingress.hosts 0 "scheme" }}://{{ index .Values.ingress.hosts 0 "host" }}
           - name: DATASOURCES_DEFAULT_HOST
           {{- if .Values.mariadb.enabled }}
             value: {{ .Release.Name }}-mariadb
+          {{- else if index .Values "mariadb-galera" "enabled" }}
+            value: {{ .Release.Name }}-mariadb-galera
           {{- else }}
             value: {{ .Values.mariadb.auth.host }}
           {{- end }}
           - name: DATASOURCES_DEFAULT_USERNAME
+          {{- if index .Values "mariadb-galera" "enabled" }}
+            value: {{ index .Values "mariadb-galera" "db" "user" }}
+          {{- else }}
             value: {{ .Values.mariadb.auth.username }}
+          {{- end }}
           - name: DATASOURCES_DEFAULT_PASSWORD
           {{- if .Values.mariadb.enabled }}
             valueFrom:
               secretKeyRef:
                 name: {{ .Release.Name }}-mariadb
                 key: mariadb-password
+          {{- else if index .Values "mariadb-galera" "enabled" }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Release.Name }}-mariadb-galera
+                key: mariadb-password
           {{- else }}
             value: {{ .Values.mariadb.auth.password }}
           {{- end }}
           - name: DATASOURCES_DEFAULT_DATABASE
+          {{- if index .Values "mariadb-galera" "enabled" }}
+            value: {{ index .Values "mariadb-galera" "db" "name" }}
+          {{- else }}
             value: {{ .Values.mariadb.auth.database }}
+          {{- end }}
           {{- if .Values.passbolt.config.email.enabled }}
           - name: EMAIL_DEFAULT_FROM_NAME
             value: {{ .Values.passbolt.config.email.from_name }}
