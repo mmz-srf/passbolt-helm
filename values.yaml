@@ -28,7 +28,8 @@ passbolt:
         redis:
           # If you enable redis, you need to provide your own redis endpoint
           enabled: true
-          service: passbolt-redis-master
+          #service: passbolt-redis-master
+          service: passbolt-redis-cluster-headless
     salt: "your salt"
     gpgServerKeyFingerprint: "A3132A7FB02319AFC24E5605AEC2A8D23CE6DFEF"
     # serverkey_private:
@@ -109,9 +110,13 @@ mariadb-galera:
     name: "passboltgaleradb"
 
 redis:
-  enabled: true
+  enabled: false
   auth:
     password: "redispassword"
+
+redis-cluster:
+  enabled: true
+  password: "redisclusterpassword"
 
 # Service
 service:

@@ -17,6 +17,11 @@ data:
     php_admin_value[max_execution_time] = 300
     php_admin_value[session.gc_maxlifetime] = {{ .Values.passbolt.config.php.session.lifetime }}
     {{- if .Values.passbolt.config.php.session.redis.enabled }}
+    {{- if .Values.redis.enabled }}
     php_admin_value[session.save_handler] = redis
     php_admin_value[session.save_path] = "tcp://{{ .Values.passbolt.config.php.session.redis.service }}:6379?auth={{ .Values.redis.auth.password }}"
+    {{- else if index .Values "redis-cluster" "enabled" }}
+    php_admin_value[session.save_handler] = rediscluster
+    php_admin_value[session.save_path] = "seed[]={{ .Values.passbolt.config.php.session.redis.service }}:6379&auth={{ index .Values "redis-cluster" "password" }}"
+    {{- end }}
     {{- end }}

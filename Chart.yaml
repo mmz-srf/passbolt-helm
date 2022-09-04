@@ -45,3 +45,7 @@ dependencies:
     version: ">17.1.2"
     repository: https://charts.bitnami.com/bitnami
     condition: redis.enabled
+  - name: redis-cluster
+    version: ">8.2.0"
+    repository: https://charts.bitnami.com/bitnami
+    condition: redis-cluster.enabled
