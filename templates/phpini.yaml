@@ -22,6 +22,6 @@ data:
     php_admin_value[session.save_path] = "tcp://{{ .Values.passbolt.config.php.session.redis.service }}:6379?auth={{ .Values.redis.auth.password }}"
     {{- else if index .Values "redis-cluster" "enabled" }}
     php_admin_value[session.save_handler] = rediscluster
-    php_admin_value[session.save_path] = "seed[]={{ .Values.passbolt.config.php.session.redis.service }}:6379&auth={{ index .Values "redis-cluster" "password" }}"
+    php_admin_value[session.save_path] = "seed[]={{ .Values.passbolt.config.php.session.redis.service }}:6379&auth={{ index .Values "redis-cluster" "password" }}&failover=error&timeout=2&read_timeout=2&persistent=1"
     {{- end }}
     {{- end }}
