@@ -130,9 +130,9 @@ spec:
             - name: gpg
               mountPath: /etc/passbolt/gpg
               readOnly: true
-            - name: passbolt-php-ini-config
+            - name: passbolt-php-config
               mountPath: /etc/php/7.4/fpm/pool.d/zzz-passbolt.conf
-              subPath: passbolt.conf
+              subPath: zzz-passbolt.conf
               readOnly: true
             - name: jwt
               mountPath: /etc/passbolt/jwt
@@ -164,9 +164,9 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
-        - name: passbolt-php-ini-config
+        - name: passbolt-php-config
           configMap:
-            name: {{ template "passbolt-helm.fullname" . }}-phpini
+            name: {{ template "passbolt-helm.fullname" . }}-phpconfig
         - name: passbolt-logs
           emptyDir: {}
         - name: gpg
