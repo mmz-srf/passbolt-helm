@@ -1,0 +1,73 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ include "passbolt-helm.fullname" . }}-passbolt-configmap
+data:
+  zzz-passbolt.conf: |
+    [www]
+    pm = dynamic
+    pm.max_children = 40
+    pm.start_servers = 16
+    pm.min_spare_servers = 8
+    pm.max_spare_servers = 24
+    clear_env = no
+    php_value[memory_limit] = {{ .Values.passbolt.config.php.memory_limit }}
+    php_value[post_max_size] = {{ .Values.passbolt.config.php.post_max_size }}
+    php_value[upload_max_filesize] = {{ .Values.passbolt.config.php.upload_max_filesize }}
+    php_admin_value[max_execution_time] = {{ .Values.passbolt.config.php.max_execution_time }}
+    php_admin_value[session.gc_maxlifetime] = {{ .Values.passbolt.config.php.session.lifetime }}
+    {{- if .Values.passbolt.config.php.session.redis.enabled }}
+    {{- if .Values.redis.enabled }}
+    php_admin_value[session.save_handler] = redis
+    php_admin_value[session.save_path] = "tcp://{{ .Values.passbolt.config.php.session.redis.service }}:6379?auth={{ .Values.redis.auth.password }}"
+    {{- else if index .Values "redis-cluster" "enabled" }}
+    php_admin_value[session.save_handler] = rediscluster
+    php_admin_value[session.save_path] = "seed[]={{ .Values.passbolt.config.php.session.redis.service }}:6379&auth={{ index .Values "redis-cluster" "password" }}&failover=error&timeout=2&read_timeout=2&persistent=1"
+    {{- end }}
+    {{- end }}
+  nginx-passbolt.conf: |
+    #
+    #  Passbolt.conf - Nginx configuration file to run the Passbolt software.
+    #
+
+    server {
+    
+      listen 80;
+      listen [::]:80;
+
+      # Managed by Passbolt
+      server_name _;
+
+      client_body_buffer_size     100K;
+      client_header_buffer_size   1K;
+      client_max_body_size        5M;
+
+      client_body_timeout   10;
+      client_header_timeout 10;
+      keepalive_timeout     5 5;
+      send_timeout          10;
+
+      root /usr/share/php/passbolt/webroot;
+      index index.php;
+      error_log /var/log/nginx/passbolt-error.log info;
+      access_log /var/log/nginx/passbolt-access.log;
+
+      # Managed by Passbolt
+      include /etc/nginx/snippets/passbolt-ssl.conf;
+
+      location / {
+        try_files $uri $uri/ /index.php?$args;
+      }
+
+      location ~ \.php$ {
+        try_files                $uri =404;
+        include                  fastcgi_params;
+        fastcgi_pass             unix:/etc/passbolt/php7.4-fpm.sock;
+        fastcgi_index            index.php;
+        fastcgi_intercept_errors on;
+        fastcgi_split_path_info  ^(.+\.php)(.+)$;
+        fastcgi_param            SCRIPT_FILENAME $document_root$fastcgi_script_name;
+        fastcgi_param            SERVER_NAME $http_host;
+        fastcgi_read_timeout {{ .Values.passbolt.config.php.max_execution_time }};
+      }
+    }

@@ -22,6 +22,10 @@ passbolt:
     debug: false
     registration: false
     php:
+      max_execution_time: 300
+      memory_limit: "512M"
+      post_max_size: "24M"
+      upload_max_filesize: "24M"
       session:
         # Session liftime in seconds
         lifetime: 3600
