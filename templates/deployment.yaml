@@ -132,7 +132,7 @@ spec:
               readOnly: true
             - name: passbolt-php-config
               mountPath: /etc/php/7.4/fpm/pool.d/zzz-passbolt.conf
-              subPath: zzz-passbolt.conf
+              subPath: passbolt.conf
               readOnly: true
             - name: jwt
               mountPath: /etc/passbolt/jwt
@@ -166,7 +166,7 @@ spec:
       volumes:
         - name: passbolt-php-config
           configMap:
-            name: {{ template "passbolt-helm.fullname" . }}-phpconfig
+            name: {{ template "passbolt-helm.fullname" . }}-php-config
         - name: passbolt-logs
           emptyDir: {}
         - name: gpg
