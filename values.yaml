@@ -26,11 +26,19 @@ passbolt:
       memory_limit: "512M"
       post_max_size: "24M"
       upload_max_filesize: "24M"
+      # pm_value can be static, dynamic or ondemand 
+      pm_value: dynamic
+      pm:
+        max_children: 40
+        start_servers: 16
+        min_spare_servers: 8
+        max_spare_servers: 24
+        process_idle_timeout: "10s"
+        max_requests: 500
       session:
         # Session liftime in seconds
         lifetime: 3600
         redis:
-          # If you enable redis, you need to provide your own redis endpoint
           enabled: true
           #service: passbolt-redis-master
           service: passbolt-redis-cluster-headless

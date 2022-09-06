@@ -5,12 +5,13 @@ metadata:
 data:
   zzz-passbolt.conf: |
     [www]
-    pm = dynamic
-    pm.max_children = 40
-    pm.start_servers = 16
-    pm.min_spare_servers = 8
-    pm.max_spare_servers = 24
-    clear_env = no
+    pm = {{ .Values.passbolt.config.php.pm_value }}
+    pm.max_children = {{ .Values.passbolt.config.php.pm.max_children }}
+    pm.start_servers = {{ .Values.passbolt.config.php.pm.start_servers }}
+    pm.min_spare_servers = {{ .Values.passbolt.config.php.pm.min_spare_servers }}
+    pm.max_spare_servers = {{ .Values.passbolt.config.php.pm.max_spare_servers }}
+    pm.process_idle_timeout = {{ .Values.passbolt.config.php.pm.process_idle_timeout }}
+    pm.max_requests = {{ .Values.passbolt.config.php.pm.max_requests }}
     php_value[memory_limit] = {{ .Values.passbolt.config.php.memory_limit }}
     php_value[post_max_size] = {{ .Values.passbolt.config.php.post_max_size }}
     php_value[upload_max_filesize] = {{ .Values.passbolt.config.php.upload_max_filesize }}
@@ -62,7 +63,7 @@ data:
       location ~ \.php$ {
         try_files                $uri =404;
         include                  fastcgi_params;
-        fastcgi_pass             unix:/etc/passbolt/php7.4-fpm.sock;
+        fastcgi_pass             unix:/run/php/php7.4-fpm.sock;
         fastcgi_index            index.php;
         fastcgi_intercept_errors on;
         fastcgi_split_path_info  ^(.+\.php)(.+)$;
