@@ -130,6 +130,9 @@ redis-cluster:
   enabled: true
   password: "redisclusterpassword"
 
+passbolt-ha-monitor:
+  enabled: true
+
 # Service
 service:
   type: ClusterIP

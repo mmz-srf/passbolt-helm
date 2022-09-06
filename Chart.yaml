@@ -49,3 +49,7 @@ dependencies:
     version: ">8.2.0"
     repository: https://charts.bitnami.com/bitnami
     condition: redis-cluster.enabled
+  - name: passbolt-ha-monitor
+    version: ">=0.0.1"
+    repository: https://anatomicjc.gitlab.io/helm-charts
+    condition: passbolt-ha-monitor.enabled
