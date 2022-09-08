@@ -39,7 +39,7 @@ passbolt:
         # Session liftime in seconds
         lifetime: 3600
         redis:
-          enabled: true
+          enabled: false
           # Redis Cluster
           #service: passbolt-redis-cluster
           # Redis Sentinel
@@ -102,9 +102,9 @@ securityContext: {}
 
 # Database (dependency:mariadb)
 mariadb:
-  enabled: false
+  enabled: true
   ## @param architecture MariaDB architecture (`standalone` or `replication`)
-  architecture: replication
+  architecture: standalone
   auth:
     rootPassword: "passboltmariadbrootpassword"
     database: "passboltmariadb"
@@ -112,7 +112,7 @@ mariadb:
     password: "passboltmariadbpassword"
 
 mariadb-galera:
-  enabled: true
+  enabled: false
   rootUser:
     password: "passboltgalerarootpassword"
   galera:  
@@ -124,7 +124,7 @@ mariadb-galera:
     name: "passboltgaleradb"
 
 redis:
-  enabled: true
+  enabled: false
   sentinel:
     enabled: true
     getMasterTimeout: 1
@@ -136,7 +136,7 @@ redis-cluster:
   password: "redisclusterpassword"
 
 passbolt-ha-monitor:
-  enabled: true
+  enabled: false
   redisCliAuth: "redispassword"
 
 # Service

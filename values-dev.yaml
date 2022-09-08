@@ -1,4 +1,23 @@
 ---
+passbolt:
+  config:
+    email:
+      enabled: true
+      from: you@localhost
+      host: mailpit
+      port: 1025
+      tls: false
+      timeout: 30
+      #username: username
+      #password: password
+    php:
+      session:
+        redis:
+          enabled: true
+          # Redis Cluster
+          #service: passbolt-redis-cluster
+          # Redis Sentinel
+          service: "passbolt-redis-node-0.passbolt-redis-headless"
 ingress:
   enabled: true
   className: ""
@@ -15,3 +34,41 @@ ingress:
   #  - secretName: chart-example-tls
   #    hosts:
   #      - chart-example.local
+
+mariadb:
+  enabled: false
+  ## @param architecture MariaDB architecture (`standalone` or `replication`)
+  architecture: replication
+  auth:
+    rootPassword: "passboltmariadbrootpassword"
+    database: "passboltmariadb"
+    username: "passboltmariadbuser"
+    password: "passboltmariadbpassword"
+
+mariadb-galera:
+  enabled: true
+  rootUser:
+    password: "passboltgalerarootpassword"
+  galera:  
+    mariabackup:
+      password: "passboltgaleramariabackuppassword"
+  db:
+    user: "passboltgalerauser"
+    password: "passboltgalerapassword"
+    name: "passboltgaleradb"
+
+redis:
+  enabled: true
+  sentinel:
+    enabled: true
+    getMasterTimeout: 1
+  auth:
+    password: "redispassword"
+
+redis-cluster:
+  enabled: false
+  password: "redisclusterpassword"
+
+passbolt-ha-monitor:
+  enabled: true
+  redisCliAuth: "redispassword"
