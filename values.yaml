@@ -40,8 +40,10 @@ passbolt:
         lifetime: 3600
         redis:
           enabled: true
-          #service: passbolt-redis-master
-          service: passbolt-redis-cluster-headless
+          # Redis Cluster
+          #service: passbolt-redis-cluster
+          # Redis Sentinel
+          service: "passbolt-redis-node-0.passbolt-redis-headless"
     salt: "your salt"
     gpgServerKeyFingerprint: "A3132A7FB02319AFC24E5605AEC2A8D23CE6DFEF"
     # serverkey_private:
@@ -122,16 +124,20 @@ mariadb-galera:
     name: "passboltgaleradb"
 
 redis:
-  enabled: false
+  enabled: true
+  sentinel:
+    enabled: true
+    getMasterTimeout: 1
   auth:
     password: "redispassword"
 
 redis-cluster:
-  enabled: true
+  enabled: false
   password: "redisclusterpassword"
 
 passbolt-ha-monitor:
   enabled: true
+  redisCliAuth: "redispassword"
 
 # Service
 service:
