@@ -143,7 +143,7 @@ spec:
               readOnly: true
           {{- if .Values.passbolt.config.license.enabled }}
             - name: license
-              mountPath: /etc/passbolt/license
+              mountPath: /etc/passbolt/subscription_key.txt
               subPath: license
               readOnly: true
           {{- end }}

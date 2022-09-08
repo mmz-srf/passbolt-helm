@@ -10,9 +10,9 @@ dependencies:
   version: 17.1.4
 - name: redis-cluster
   repository: https://charts.bitnami.com/bitnami
-  version: 8.2.1
+  version: 8.2.2
 - name: passbolt-ha-monitor
   repository: https://anatomicjc.gitlab.io/helm-charts
   version: 0.0.5
-digest: sha256:8e3fb8ea893cfd67470adb596fa5a730b4220739f9ad17686e19eabcccecd098
-generated: "2022-09-08T06:08:09.427048+02:00"
+digest: sha256:04ce9748a73d8809af2a458f686a002b72585457a91e3c370b8ef780c695ba07
+generated: "2022-09-08T17:21:07.772215+02:00"
