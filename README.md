@@ -26,6 +26,18 @@ You must generate some secrets:
 * passbolt GPG server keys
 * passbolt JWT keys for mobile
 
+Copy `variables.env.sample` to `variables.env` and update the variables with your own:
+
+```
+GPG_NAME="John Doe"
+GPG_EMAIL="john@doe.com"
+FIRST_ADMIN_EMAIL="passboltadmin@yourdomain.com"
+FIRST_ADMIN_NAME="Admin"
+FIRST_ADMIN_SURNAME="Istrator"
+```
+
+Generate the secrets:
+
 ```
 bash generate-secrets.sh
 ```
