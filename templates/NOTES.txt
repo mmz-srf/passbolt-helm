@@ -2,7 +2,7 @@
 
 Once all pods are running, you can create the first admin with the create-first-admin.sh script
 
-$ bash generate-first-admin.sh
+$ bash create-first-admin.sh
 
      ____                  __          ____
     / __ \____  _____ ____/ /_  ____  / / /_
