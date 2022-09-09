@@ -9,7 +9,7 @@ fi
 
 . variables.env
 
-kubectl exec -it \
+kubectl exec -it -c passbolt \
   $(kubectl get po --no-headers -l app.kubernetes.io/name=passbolt-helm | awk '{print $1}') \
   -- su -m -c "bin/cake passbolt register_user \
   -u ${FIRST_ADMIN_EMAIL} \
