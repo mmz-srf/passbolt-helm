@@ -6,6 +6,46 @@
 
 This helm chart installs the [passbolt container](https://github.com/passbolt/passbolt_docker/tree/master)  and a mysql database (mariadb)
 
+## Quick start
+
+Clone this repository:
+
+```
+git clone git@github.com:AnatomicJC/passbolt-helm.git
+cd passbolt-helm
+```
+
+Update helm dependencies:
+
+```
+helm dep update .
+```
+
+You must generate some secrets:
+
+* passbolt GPG server keys
+* passbolt JWT keys for mobile
+
+```
+bash generate-secrets.sh
+```
+
+> If you are a PRO user
+> * put your subscription key in `secrets/pro-license/subscription_key.txt` file.
+> * Set passbolt.config.license.enabled to true in values.yaml
+> * Set a [pro image tag](https://hub.docker.com/r/passbolt/passbolt/tags?page=1&name=pro) in values.yaml
+
+Review values.yaml file, then deploy passbolt in your cluster:
+
+```
+helm install passbolt .
+```
+
+Once all pods deployed and running, create the first admin user:
+
+```
+bash create-first-admin.sh
+```
 ## Parameters
 
 For more parameters you should have a look at ...

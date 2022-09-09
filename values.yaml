@@ -51,7 +51,7 @@ passbolt:
     # jwtkey:
     # jwtcert:
     license:
-      enabled: true
+      enabled: false
       # key:
     plugins:
       exportenabled: true
