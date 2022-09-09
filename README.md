@@ -42,12 +42,6 @@ Review values.yaml file, especially the `ingress.hosts.host` for passbolt domain
 ```
 helm install passbolt . --values values-fingerprint.yaml
 ```
-
-Once all pods deployed and running, create the first admin user:
-
-```
-bash create-first-admin.sh
-```
 ## Parameters
 
 For more parameters you should have a look at ...
