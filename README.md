@@ -47,7 +47,7 @@ bash generate-secrets.sh
 > * Set passbolt.config.license.enabled to true in values.yaml
 > * Set a [pro image tag](https://hub.docker.com/r/passbolt/passbolt/tags?page=1&name=pro) in values.yaml
 
-Review values.yaml file, then deploy passbolt in your cluster:
+Review values.yaml file, especially the `ingress.hosts.host` for passbolt domain name then deploy passbolt in your cluster:
 
 ```
 helm install passbolt .
