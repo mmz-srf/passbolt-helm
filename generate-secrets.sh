@@ -2,12 +2,8 @@
 
 set -euo pipefail
 
-if [ ! -f variables.env ]
-then
-  cp variables.env.sample variables.env
-fi
-
-. variables.env
+GPG_NAME="John Doe"
+GPG_EMAIL="john@doe.com"
 
 rm -rf secrets
 mkdir -p secrets/gpg
