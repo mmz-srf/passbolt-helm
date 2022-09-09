@@ -1,8 +1,3 @@
-** Please be patient while the chart is being deployed **
-
-Once all pods are running, you can create the first admin with the create-first-admin.sh script
-
-$ bash create-first-admin.sh
 
      ____                  __          ____
     / __ \____  _____ ____/ /_  ____  / / /_
@@ -12,6 +7,11 @@ $ bash create-first-admin.sh
 
  Open source password manager for teams
 -------------------------------------------------------------------------------
-User saved successfully.
-To start registration follow the link provided in your mailbox or here:
-http://localhost/setup/install/ea24038b-dc6d-4369-905f-e714242aebe7/323da1b2-db25-41bb-ab04-fcf04702be5a
+
+** Please be patient while the chart is being deployed **
+
+Once all pods are running, you can create the first admin with the create-first-admin.sh script
+
+> bash create-first-admin.sh
+
+You will get an output with a register URL.
