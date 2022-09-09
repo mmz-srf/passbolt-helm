@@ -42,7 +42,7 @@ spec:
         {{- if .Values.mariadb.enabled }}
         command: ['sh', '-c', "until nc -z -w3 {{ .Release.Name }}-mariadb 3306; do echo 'passbolt: waiting for database connection'; sleep 2; done"]
         {{- else if index .Values "mariadb-galera" "enabled" }}
-        command: ['sh', '-c', "until nc -z -w3 {{ .Release.Name }}-mariadb-headless 3306; do echo 'passbolt: waiting for database connection'; sleep 2; done"]
+        command: ['sh', '-c', "until nc -z -w3 {{ .Release.Name }}-mariadb-galera 3306; do echo 'passbolt: waiting for database connection'; sleep 2; done"]
         {{- else }}
         command: ['sh', '-c', "until nc -z -w3 {{ .Values.mariadb.auth.host }} 3306; do echo 'passbolt: waiting for database connection'; sleep 2; done"]
         {{- end }}
