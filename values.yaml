@@ -18,6 +18,10 @@ podLabels: {}
 
 # Passbolt configuration
 passbolt:
+  firstAdmin:
+    email: admin@domain.tld
+    name: "Admin"
+    surname: "Passbolt"
   config:
     debug: false
     registration: false
@@ -45,7 +49,7 @@ passbolt:
           # Redis Sentinel
           service: "passbolt-redis-node-0.passbolt-redis-headless"
     salt: "your salt"
-    gpgServerKeyFingerprint: "A3132A7FB02319AFC24E5605AEC2A8D23CE6DFEF"
+    gpgServerKeyFingerprint: ""
     # serverkey_private:
     # serverkey:
     # jwtkey:

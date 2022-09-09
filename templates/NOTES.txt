@@ -11,9 +11,28 @@
 -------------------------------------------------------------------------------
 
 ** Please be patient while the chart is being deployed **
+{{ if not .Values.passbolt.config.gpgServerKeyFingerprint }}
+ #     #    #    ######  #     # ### #     #  #####  
+ #  #  #   # #   #     # ##    #  #  ##    # #     # 
+ #  #  #  #   #  #     # # #   #  #  # #   # #       
+ #  #  # #     # ######  #  #  #  #  #  #  # #  #### 
+ #  #  # ####### #   #   #   # #  #  #   # # #     # 
+ #  #  # #     # #    #  #    ##  #  #    ## #     # 
+  ## ##  #     # #     # #     # ### #     #  #####  
 
-Once all pods are running, you can create the first admin with the create-first-admin.sh script
+>> GPG fingerprint haven't been defined <<
 
-> bash create-first-admin.sh
+>> Execute the generate-secrets.sh script <<
 
-You will get an output with a register URL.
+{{ else }}
+Passbolt server GPG Fingerprint: {{ .Values.passbolt.config.gpgServerKeyFingerprint }}
+
+Once all pods are running, you can create the first admin with this command:
+
+kubectl exec -it -c passbolt \
+  $(kubectl get po --no-headers -l app.kubernetes.io/name=passbolt-helm | awk '{print $1}') \
+  -- su -m -c "bin/cake passbolt register_user \
+  -u "{{ .Values.passbolt.firstAdmin.email }}" \
+  -f "{{ .Values.passbolt.firstAdmin.name }}" \
+  -l "{{ .Values.passbolt.firstAdmin.surname }}" -r admin" -s /bin/sh www-data
+{{ end }}
