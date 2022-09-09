@@ -145,6 +145,8 @@ For more parameters you should have a look at ...
 
 ## Mail testing
 
+```
 kubectl run mailpit --image=anatomicjc/mailpit
 kubectl expose pod mailpit --port 1025 --name mailpit
 kubectl port-forward mailpit 8025
+```
