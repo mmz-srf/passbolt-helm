@@ -42,6 +42,13 @@ Review values.yaml file, especially the `ingress.hosts.host` for passbolt domain
 ```
 helm install passbolt . --values values-fingerprint.yaml
 ```
+
+If you are interested with HA deployment, you can use the values-ha.yaml parameters:
+
+```
+helm upgrade --install passbolt . --values values-ha.yaml --values values-fingerprint.yaml
+```
+
 ## Parameters
 
 For more parameters you should have a look at ...
