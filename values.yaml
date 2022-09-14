@@ -132,6 +132,7 @@ redis:
   sentinel:
     enabled: true
     getMasterTimeout: 1
+    automateClusterRecovery: true
   auth:
     password: "redispassword"
 

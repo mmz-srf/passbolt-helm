@@ -30,6 +30,7 @@ maintainers:
     email: gianni.carafa@srf.ch
   - name: Bruno Mazenauer
     email: bruno.mazenauer@srf.ch
+  - name: Jean-Christophe Vassort
 
 # https://helm.sh/docs/topics/charts/#tags-and-condition-fields-in-dependencies
 dependencies:
@@ -50,6 +51,6 @@ dependencies:
     repository: https://charts.bitnami.com/bitnami
     condition: redis-cluster.enabled
   - name: passbolt-ha-monitor
-    version: ">=0.0.1"
+    version: ">=0.0.6"
     repository: https://anatomicjc.gitlab.io/helm-charts
     condition: passbolt-ha-monitor.enabled
