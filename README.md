@@ -8,6 +8,8 @@ This helm chart installs the [passbolt container](https://github.com/passbolt/pa
 
 ## Quick start
 
+### non-HA mode
+
 Clone this repository:
 
 ```
@@ -43,7 +45,17 @@ Review values.yaml file, especially the `ingress.hosts.host` for passbolt domain
 helm install passbolt . --values values-fingerprint.yaml
 ```
 
-If you are interested with HA deployment, you can use the values-ha.yaml parameters:
+### HA mode
+
+If you are interested with HA deployment, take care of the `passbolt.config.php.session.redis.service` setting. It is the first pod name by default of the xxx-redis-headless service where xxx is your helm release name (passbolt by default in the below helm command).
+
+If your helm release name is **pblt**, replace **passbolt-redis-node-0.passbolt-redis-headless** with **pblt-redis-node-0.pblt-redis-headless**
+
+While the database is not yet initialized, the replicaCount of passbolt-helm deployment must be set to 1. Once the database initialized, you can scale.
+
+If you want to import your passwords from keepass or csv, it is recommended to scale to 1. Database concurrency is not well managed while importing.
+
+If you are ok with the above point, you can deploy the HA mode with:
 
 ```
 helm upgrade --install passbolt . --values values-ha.yaml --values values-fingerprint.yaml

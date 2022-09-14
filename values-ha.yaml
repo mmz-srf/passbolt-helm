@@ -1,4 +1,7 @@
 ---
+# For the database init, replicaCount must be set to 1
+# You can scale once the DB initialized
+replicaCount: 1
 image:
   repository: passbolt/passbolt
   pullPolicy: IfNotPresent
