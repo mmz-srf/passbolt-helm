@@ -4,16 +4,12 @@
 ![GitHub issues](https://img.shields.io/badge/kubernetes-v1.16-green)
 [![GitHub issues](https://img.shields.io/github/issues/mmz-srf/passbolt-helm)](https://github.com/mmz-srf/passbolt-helm/issues)
 
-This helm chart installs the [passbolt container](https://github.com/passbolt/passbolt_docker/tree/master)  and a mysql database (mariadb)
-
 ## Quick start
-
-### non-HA mode
 
 Clone this repository:
 
 ```
-git clone git@github.com:AnatomicJC/passbolt-helm.git
+git clone git@github.com:mmz-srf/passbolt-helm.git
 cd passbolt-helm
 ```
 
@@ -23,23 +19,31 @@ Update helm dependencies:
 helm dep update .
 ```
 
-You must generate some secrets:
+Before deploying this chart, you must define some secrets:
 
 * passbolt GPG server keys
 * passbolt JWT keys for mobile
 
-Generate the secrets:
+You can generate them with this script:
 
 ```
 bash generate-secrets.sh
 ```
+
+A `values-fingerprint.yaml` file will be created containing GPG keys fingerprint.
 
 > If you are a PRO user
 > * put your subscription key in `secrets/pro-license/subscription_key.txt` file.
 > * Set passbolt.config.license.enabled to true in values.yaml
 > * Set a [pro image tag](https://hub.docker.com/r/passbolt/passbolt/tags?page=1&name=pro) in values.yaml
 
-Review values.yaml file, especially the `ingress.hosts.host` for passbolt domain name then deploy passbolt in your cluster:
+Review values.yaml file, especially the `ingress.hosts.host` for passbolt domain name then deploy passbolt in your cluster
+
+### non-HA mode
+
+This mode will deploy the [passbolt container](https://github.com/passbolt/passbolt_docker/tree/master) and a mysql database (mariadb)
+
+> *values-fingerprint.yaml* is a file automatically created by [generate-secrets.sh](generate-secrets.sh) script and contains your GPG server fingerprint.
 
 ```
 helm install passbolt . --values values-fingerprint.yaml
@@ -51,11 +55,13 @@ If you are interested with HA deployment, take care of the `passbolt.config.php.
 
 If your helm release name is **pblt**, replace **passbolt-redis-node-0.passbolt-redis-headless** with **pblt-redis-node-0.pblt-redis-headless**
 
-While the database is not yet initialized, the replicaCount of passbolt-helm deployment must be set to 1. Once the database initialized, you can scale.
+While the database is not yet initialized, the replicaCount of passbolt-helm deployment must be set to 1. Once the database initialized, you can scale passbolt dpeloyment to more than 1 replica.
 
 If you want to import your passwords from keepass or csv, it is recommended to scale to 1. Database concurrency is not well managed while importing.
 
-If you are ok with the above point, you can deploy the HA mode with:
+HA Mode uses MariaDB Galera and Redis clusters.
+
+If you are ok with the above points, review the values-ha.yaml file and deploy the HA mode with:
 
 ```
 helm upgrade --install passbolt . --values values-ha.yaml --values values-fingerprint.yaml
@@ -66,14 +72,16 @@ helm upgrade --install passbolt . --values values-ha.yaml --values values-finger
 For more parameters you should have a look at ...
 - the [values.yaml](values.yaml) file of this helm chart
 - the [values.yaml](https://github.com/helm/charts/blob/master/stable/mariadb/values.yaml) file of the mariadb helm chart, when enabled
-- the [enviroment variables](https://github.com/passbolt/passbolt_docker/tree/master) of the passbold docker image.
+- the [values.yaml](https://github.com/bitnami/charts/blob/master/bitnami/mariadb-galera/values.yaml) file of the mariadb-galera helm chart, when enabled
+- the [values.yaml](https://github.com/bitnami/charts/blob/master/bitnami/redis/values.yaml) file of the redis helm chart, when enabled
+- the [enviroment variables](https://github.com/passbolt/passbolt_docker/tree/master) of the passbolt docker image.
 
 ### General
 
 | Parameter          | Description                          | Default                   |
 |--------------------|--------------------------------------|---------------------------|
 | `replicaCount`     | How many replicas should be deployed | `1`                       |
-| `image.repository` | Passbolt image repository            | `"passbolt/passbolt"`     |
+| `image.repository` | Passbolt image repositorys           | `"passbolt/passbolt"`     |
 | `image.tag`        | Passbolt image tag                   | `"latest"`                |
 | `image.pullPolicy` | Image pull policy                    | `IfNotPresent`            |
 | `imagePullSecrets` | Image pull secrets                   | `[]`                      |
@@ -88,10 +96,6 @@ For more parameters you should have a look at ...
 
 | Parameter                                            | Description                                                                                                          | Default                             |
 |------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------|-------------------------------------|
-| `passbolt.persistence.enabled`                       | Enable/Disable persistence Disk for uploaded Files (Avatars)                                                         | `true`                              |
-| `passbolt.persistence.storageClass`                  | Disk storageclass                                                                                                    | `-`                                 |
-| `passbolt.persistence.accessMode`                    | Disk access mode                                                                                                     | `ReadWriteMany`                     |
-| `passbolt.persistence.size`                          | Disk size                                                                                                            | `1Gi`                               |
 | `passbolt.config.debug`                              | Enable/Disable debug output in passbolt image                                                                        | `false`                             |
 | `passbolt.config.registration`                       | Enable/Disable user can register                                                                                     | `false`                             |
 | `passbolt.config.salt`                               | Salt. Generate: ```openssl rand -base64 32```                                                                        | `"your salt"`                       |
@@ -102,6 +106,17 @@ For more parameters you should have a look at ...
 | `passbolt.config.jwtcert`                            | The JWT certificate. If set the cert will not be read from [file](secrets/jwt/jwt.pem)                               | ` `                                 |
 | `passbolt.config.license.enabled`                    | Set true if you own a license key. Add the license key in [secrets/pro-license/license](secrets/pro-license/license) | `false`                             |
 | `passbolt.config.license.key`                        | The license key. If set the license key will not be read from [file](secrets/pro-license/license).                   | `false`                             |
+| `passbolt.config.php.max_execution_time`             | PHP Max execution time                                                                                               | `300`                               |
+| `passbolt.config.php.memory_limit`                   | PHP Memory Limit                                                                                                    | `512M`                               |
+| `passbolt.config.php.post_max_size`                  | PHP post max size                                                                                                   | `24M`                                |
+| `passbolt.config.php.upload_max_filesize`            | PHP upload max filesize                                                                                             | `24M`                                |
+| `passbolt.config.php.pm_value`                       | PHP-FPM pm_value                                                                                                    | `dynamic`                            |
+| `passbolt.config.php.pm.max_children`                | PHP-FPM pm.max_children                                                                                             | `40`                            |
+| `passbolt.config.php.pm.start_servers`               | PHP-FPM pm.start_servers                                                                                            | `16`                            |
+| `passbolt.config.php.pm.min_spare_servers`           | PHP-FPM pm.min_spare_servers                                                                                        | `8`                             |
+| `passbolt.config.php.pm.max_spare_servers`           | PHP-FPM pm.max_spare_servers                                                                                        | `16`                            |
+| `passbolt.config.php.pm.process_idle_timeout`        | PHP-FPM pm.process_idle_timeout                                                                                     | `10s`                           |
+| `passbolt.config.php.pm.max_requests`                | PHP-FPM pm.max_requests                                                                                             | `500`                           |
 | `passbolt.config.php.session.lifetime`               | Lifetime of your user sessions in seconds                                                                            | `3600`                              |
 | `passbolt.config.php.session.redis.enabled`          | Enable this if you want to provide your own redis as a session backend                                               | `false`                             |
 | `passbolt.config.php.session.redis.service`          | The URL of your redis endpoint, only useful if enabled                                                               | `redis`                             |
