@@ -59,7 +59,9 @@ While the database is not yet initialized, the replicaCount of passbolt-helm dep
 
 If you want to import your passwords from keepass or csv, it is recommended to scale to 1. Database concurrency is not well managed while importing.
 
-HA Mode uses MariaDB Galera and Redis clusters.
+HA Mode uses MariaDB Galera cluster and Redis cluster.
+
+You must have at least 3 worker nodes.
 
 If you are ok with the above points, review the values-ha.yaml file and deploy the HA mode with:
 
