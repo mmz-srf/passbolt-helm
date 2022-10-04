@@ -55,7 +55,7 @@ If you are interested with HA deployment, take care of the `passbolt.config.php.
 
 If your helm release name is **pblt**, replace **passbolt-redis-node-0.passbolt-redis-headless** with **pblt-redis-node-0.pblt-redis-headless**
 
-While the database is not yet initialized, the replicaCount of passbolt-helm deployment must be set to 1. Once the database initialized, you can scale passbolt dpeloyment to more than 1 replica.
+While the database is not yet initialized, the replicaCount of passbolt-helm deployment must be set to 1. Once the database initialized, you can scale passbolt deployment to more than 1 replica.
 
 If you want to import your passwords from keepass or csv, it is recommended to scale to 1. Database concurrency is not well managed while importing.
 
