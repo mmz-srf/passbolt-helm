@@ -76,7 +76,7 @@ For more parameters you should have a look at ...
 - the [values.yaml](https://github.com/helm/charts/blob/master/stable/mariadb/values.yaml) file of the mariadb helm chart, when enabled
 - the [values.yaml](https://github.com/bitnami/charts/blob/master/bitnami/mariadb-galera/values.yaml) file of the mariadb-galera helm chart, when enabled
 - the [values.yaml](https://github.com/bitnami/charts/blob/master/bitnami/redis/values.yaml) file of the redis helm chart, when enabled
-- the [enviroment variables](https://github.com/passbolt/passbolt_docker/tree/master) of the passbolt docker image.
+- the [environment variables](https://github.com/passbolt/passbolt_docker/tree/master) of the passbolt docker image.
 
 ### General
 
