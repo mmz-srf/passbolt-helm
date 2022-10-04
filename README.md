@@ -16,7 +16,7 @@ cd passbolt-helm
 Update helm dependencies:
 
 ```
-helm dep update .
+helm dep build .
 ```
 
 Before deploying this chart, you must define some secrets:
