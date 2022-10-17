@@ -205,10 +205,10 @@ For more parameters you should have a look at ...
     ```
     helm install \
       -f values.yaml \
-      --set-file passbolt.config.serverkey=./gpg/serverkey.asc \
-      --set-file passbolt.config.serverkey_private=./gpg/serverkey_private.asc \
-      --set-file passbolt.config.jwtkey=./jwt/jwt.key \
-      --set-file passbolt.config.jwtcert=./jwt/jwt.pem \
+      --set-file passbolt.config.serverkey=./secrets/gpg/serverkey.asc \
+      --set-file passbolt.config.serverkey_private=./secrets/gpg/serverkey_private.asc \
+      --set-file passbolt.config.jwtkey=./secrets/jwt/jwt.key \
+      --set-file passbolt.config.jwtcert=./secrets/jwt/jwt.pem \
       passbolt ../passbolt-helm/
 
 ## Create first passbolt admin user
