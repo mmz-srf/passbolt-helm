@@ -10,7 +10,7 @@ This helm chart installs the [passbolt container](https://github.com/passbolt/pa
 
 For more parameters you should have a look at ...
 - the [values.yaml](values.yaml) file of this helm chart
-- the [values.yaml](https://github.com/helm/charts/blob/master/stable/mariadb/values.yaml) file of the mariadb helm chart, when enabled
+- the [values.yaml](https://github.com/bitnami/charts/blob/main/bitnami/mariadb/values.yaml) file of the mariadb helm chart, when enabled
 - the [environment variables](https://github.com/passbolt/passbolt_docker/tree/master) of the passbolt docker image.
 
 ### General
