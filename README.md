@@ -10,8 +10,8 @@ This helm chart installs the [passbolt container](https://github.com/passbolt/pa
 
 For more parameters you should have a look at ...
 - the [values.yaml](values.yaml) file of this helm chart
-- the [values.yaml](https://github.com/helm/charts/blob/master/stable/mariadb/values.yaml) file of the mariadb helm chart, when enabled
-- the [enviroment variables](https://github.com/passbolt/passbolt_docker/tree/master) of the passbold docker image.
+- the [values.yaml](https://github.com/bitnami/charts/blob/main/bitnami/mariadb/values.yaml) file of the mariadb helm chart, when enabled
+- the [environment variables](https://github.com/passbolt/passbolt_docker/tree/master) of the passbolt docker image.
 
 ### General
 
@@ -133,10 +133,10 @@ For more parameters you should have a look at ...
     ```
     helm install \
       -f values.yaml \
-      --set-file passbolt.config.serverkey=./gpg/serverkey.asc \
-      --set-file passbolt.config.serverkey_private=./gpg/serverkey_private.asc \
-      --set-file passbolt.config.jwtkey=./jwt/jwt.key \
-      --set-file passbolt.config.jwtcert=./jwt/jwt.pem \
+      --set-file passbolt.config.serverkey=./secrets/gpg/serverkey.asc \
+      --set-file passbolt.config.serverkey_private=./secrets/gpg/serverkey_private.asc \
+      --set-file passbolt.config.jwtkey=./secrets/jwt/jwt.key \
+      --set-file passbolt.config.jwtcert=./secrets/jwt/jwt.pem \
       passbolt ../passbolt-helm/
 
 ## Create first passbolt admin user

@@ -84,14 +84,14 @@ mariadb:
   enabled: true
   replication:
     enabled: false
-  db:
+  auth:
     # define external host, when mariadb is disabled
     host: internal
+    rootPassword: "<pwgen -n 64 1>"
 
-    name: passbolt
-    user: passbolt
-    password: passbolt
-
+    database: "passbolt"
+    username: "passbolt"
+    password: "<pwgen -n 64 1>"
 
 # Service
 service:
