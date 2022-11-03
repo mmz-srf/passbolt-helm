@@ -69,10 +69,10 @@ passbolt:
       initialDelaySeconds: 60
       timeoutSeconds: 10
     readinessProbe:
-      failureThreshold: 3
+      failureThreshold: 20
       successThreshold: 1
-      periodSeconds: 10
-      initialDelaySeconds: 60
+      periodSeconds: 3
+      initialDelaySeconds: 3
       timeoutSeconds: 10
 
 # Pod security specific configurations. see deployment.yaml
