@@ -76,10 +76,10 @@ passbolt:
       initialDelaySeconds: 30
       timeoutSeconds: 10
     readinessProbe:
-      failureThreshold: 3
+      failureThreshold: 20
       successThreshold: 1
-      periodSeconds: 10
-      initialDelaySeconds: 30
+      periodSeconds: 3
+      initialDelaySeconds: 3
       timeoutSeconds: 10
 
 serviceAccount:

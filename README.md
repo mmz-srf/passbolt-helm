@@ -1,7 +1,7 @@
 # Passbolt Kubernetes Helm Charts
 
 [![GitHub license](https://img.shields.io/github/license/mmz-srf/passbolt-helm)](https://github.com/mmz-srf/passbolt-helm/blob/master/LICENSE)
-![GitHub issues](https://img.shields.io/badge/kubernetes-v1.16-green)
+![GitHub issues](https://img.shields.io/badge/kubernetes-v1.19-green)
 [![GitHub issues](https://img.shields.io/github/issues/mmz-srf/passbolt-helm)](https://github.com/mmz-srf/passbolt-helm/issues)
 
 ## Quick start
