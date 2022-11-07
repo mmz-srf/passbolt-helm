@@ -61,7 +61,7 @@ spec:
               /usr/bin/wait-for.sh -t 0 ${DATASOURCES_DEFAULT_HOST}:3306 -- /docker-entrypoint.sh"
           env:
           - name: APP_FULL_BASE_URL
-            value: {{ index .Values.ingress.hosts 0 "scheme" }}://{{ index .Values.ingress.hosts 0 "host" }}
+            value: {{ .Values.ingress.scheme }}://{{ .Values.ingress.host}}
           - name: DATASOURCES_DEFAULT_HOST
           {{- if .Values.mariadb.enabled }}
             value: {{ .Release.Name }}-mariadb
