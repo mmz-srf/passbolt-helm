@@ -19,6 +19,13 @@ spec:
         {{- toYaml .Values.podLabels | nindent 8 }}
         {{- end }}
     spec:
+      topologySpreadConstraints:
+      - labelSelector:
+          matchLabels:
+            app.kubernetes.io/instance: {{ .Release.Name }}
+        maxSkew: 1
+        topologyKey: kubernetes.io/hostname
+        whenUnsatisfiable: ScheduleAnyway
     {{- with .Values.topologySpreadConstraints }}
       topologySpreadConstraints:
         {{- toYaml . | nindent 8 }}
@@ -29,34 +36,66 @@ spec:
     {{- end }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      initContainers:
+      - name: passbolt-init-db
+        image: busybox
+        {{- if .Values.mariadb.enabled }}
+        command: ['sh', '-c', "until nc -z -w3 {{ .Release.Name }}-mariadb 3306; do echo 'passbolt: waiting for database connection'; sleep 2; done"]
+        {{- else if index .Values "mariadb-galera" "enabled" }}
+        command: ['sh', '-c', "until nc -z -w3 {{ .Release.Name }}-mariadb-galera 3306; do echo 'passbolt: waiting for database connection'; sleep 2; done"]
+        {{- else }}
+        command: ['sh', '-c', "until nc -z -w3 {{ .Values.mariadb.auth.host }} 3306; do echo 'passbolt: waiting for database connection'; sleep 2; done"]
+        {{- end }}
       containers:
         - name: passbolt
           securityContext:
             {{- toYaml .Values.securityContext | nindent 12 }}
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: {{ .Values.image.pullPolicy }}
+          command:
+            - bash
+            - -c
+            - "echo 'debconf debconf/frontend select Noninteractive' | debconf-set-selections;
+              apt-get update;
+              apt-get install -y php-redis;
+              /usr/bin/wait-for.sh -t 0 ${DATASOURCES_DEFAULT_HOST}:3306 -- /docker-entrypoint.sh"
           env:
           - name: APP_FULL_BASE_URL
-            value: https://{{ .Values.ingress.host }}
+            value: {{ .Values.ingress.scheme }}://{{ .Values.ingress.host}}
           - name: DATASOURCES_DEFAULT_HOST
           {{- if .Values.mariadb.enabled }}
             value: {{ .Release.Name }}-mariadb
+          {{- else if index .Values "mariadb-galera" "enabled" }}
+            value: {{ .Release.Name }}-mariadb-galera-headless
           {{- else }}
             value: {{ .Values.mariadb.auth.host }}
           {{- end }}
           - name: DATASOURCES_DEFAULT_USERNAME
+          {{- if index .Values "mariadb-galera" "enabled" }}
+            value: {{ index .Values "mariadb-galera" "db" "user" }}
+          {{- else }}
             value: {{ .Values.mariadb.auth.username }}
+          {{- end }}
           - name: DATASOURCES_DEFAULT_PASSWORD
           {{- if .Values.mariadb.enabled }}
             valueFrom:
               secretKeyRef:
                 name: {{ .Release.Name }}-mariadb
                 key: mariadb-password
+          {{- else if index .Values "mariadb-galera" "enabled" }}
+            valueFrom:
+              secretKeyRef:
+                name: {{ .Release.Name }}-mariadb-galera
+                key: mariadb-password
           {{- else }}
             value: {{ .Values.mariadb.auth.password }}
           {{- end }}
           - name: DATASOURCES_DEFAULT_DATABASE
+          {{- if index .Values "mariadb-galera" "enabled" }}
+            value: {{ index .Values "mariadb-galera" "db" "name" }}
+          {{- else }}
             value: {{ .Values.mariadb.auth.database }}
+          {{- end }}
           {{- if .Values.passbolt.config.email.enabled }}
           - name: EMAIL_DEFAULT_FROM_NAME
             value: {{ .Values.passbolt.config.email.from_name }}
@@ -96,24 +135,25 @@ spec:
               containerPort: 80
               protocol: TCP
           volumeMounts:
-          {{- if .Values.passbolt.persistence.enabled }}
-            - mountPath: /usr/share/php/passbolt/webroot/img/public
-              name: data
-              subPath: public
-          {{- end }}
+            - name: passbolt-logs
+              mountPath: /var/log/passbolt
             - name: gpg
               mountPath: /etc/passbolt/gpg
               readOnly: true
-            - name: passbolt-php-ini-config
-              mountPath: /etc/php/7.4/fpm/conf.d/passbolt.ini
-              subPath: passbolt.ini
+            - name: passbolt-configmap
+              mountPath: /etc/php/7.4/fpm/pool.d/zzz-passbolt.conf
+              subPath: zzz-passbolt.conf
+              readOnly: true
+            - name: passbolt-configmap
+              mountPath: /etc/nginx/sites-enabled/nginx-passbolt.conf
+              subPath: nginx-passbolt.conf
               readOnly: true
             - name: jwt
               mountPath: /etc/passbolt/jwt
               readOnly: true
           {{- if .Values.passbolt.config.license.enabled }}
             - name: license
-              mountPath: /etc/passbolt/license
+              mountPath: /etc/passbolt/subscription_key.txt
               subPath: license
               readOnly: true
           {{- end }}
@@ -138,14 +178,11 @@ spec:
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
       volumes:
-        {{- if .Values.passbolt.persistence.enabled }}
-        - name: data
-          persistentVolumeClaim:
-            claimName: {{ template "passbolt-helm.fullname" . }}-data
-        {{- end }}
-        - name: passbolt-php-ini-config
+        - name: passbolt-configmap
           configMap:
-            name: {{ template "passbolt-helm.fullname" . }}-phpini
+            name: {{ template "passbolt-helm.fullname" . }}-passbolt-configmap
+        - name: passbolt-logs
+          emptyDir: {}
         - name: gpg
           secret:
             secretName: {{ template "passbolt-helm.fullname" . }}-gpg

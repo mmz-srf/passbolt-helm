@@ -1,0 +1,4 @@
+charts/*
+secrets/*
+variables.env
+values-fingerprint.yaml

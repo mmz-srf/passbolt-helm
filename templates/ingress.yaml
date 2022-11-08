@@ -15,7 +15,7 @@ metadata:
   {{- end }}
     #kubeversion: {{ .Capabilities.KubeVersion.GitVersion }}
 spec:
-  {{- if .Values.ingress.tls.enabled }}
+  {{- if .Values.ingress.tls }}
   tls:
   - hosts:
     - {{ .Values.ingress.host }}

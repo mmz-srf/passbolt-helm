@@ -1,22 +1,12 @@
-# Default values for passbolt-helm.
-# This is a YAML-formatted file.
-# Declare variables to be passed into your templates.
-
+---
+# For the database init, replicaCount must be set to 1
+# You can scale once the DB initialized
 replicaCount: 1
-
-# Image
 image:
-  repository: "passbolt/passbolt"
-  tag: latest
+  repository: passbolt/passbolt
   pullPolicy: IfNotPresent
-
-topologySpreadConstraints: []
-imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
-podLabels: {}
-
-# Passbolt configuration
+  # Overrides the image tag whose default is the chart appVersion.
+  tag: "3.7.3-1-pro"
 passbolt:
   persistence:
     enabled: true
@@ -30,19 +20,32 @@ passbolt:
     # storageClass: "-"
     accessMode: ReadWriteMany
     size: 1Gi
+  firstAdmin:
+    email: admin@domain.tld
+    name: "Admin"
+    surname: "Passbolt"
   config:
-    debug: false
-    registration: false
     php:
+      max_execution_time: 300
+      memory_limit: "512M"
+      post_max_size: "24M"
+      upload_max_filesize: "24M"
+      # pm_value can be static, dynamic or ondemand 
+      pm_value: dynamic
+      pm:
+        max_children: 40
+        start_servers: 16
+        min_spare_servers: 8
+        max_spare_servers: 24
+        process_idle_timeout: "10s"
+        max_requests: 500
       session:
         # Session liftime in seconds
         lifetime: 3600
         redis:
-          # If you enable redis, you need to provide your own redis endpoint
           enabled: false
-          service: redis
     salt: "your salt"
-    gpgServerKeyFingerprint: "your gpg server key fingerprint"
+    gpgServerKeyFingerprint: ""
     # serverkey_private:
     # serverkey:
     # jwtkey:
@@ -66,7 +69,7 @@ passbolt:
       failureThreshold: 3
       successThreshold: 1
       periodSeconds: 10
-      initialDelaySeconds: 60
+      initialDelaySeconds: 30
       timeoutSeconds: 10
     readinessProbe:
       failureThreshold: 20
@@ -75,39 +78,74 @@ passbolt:
       initialDelaySeconds: 3
       timeoutSeconds: 10
 
-# Pod security specific configurations. see deployment.yaml
-podSecurityContext: {}
-securityContext: {}
+serviceAccount:
+  # Specifies whether a service account should be created
+  create: true
+  # Annotations to add to the service account
+  annotations: {}
 
-# Database (dependency:mariadb)
+
 mariadb:
   enabled: true
-  replication:
-    enabled: false
+  ## @param architecture MariaDB architecture (`standalone` or `replication`)
+  architecture: standalone
   auth:
-    # define external host, when mariadb is disabled
-    host: internal
-    rootPassword: "<pwgen -n 64 1>"
+    rootPassword: "passboltmariadbrootpassword"
+    database: "passboltmariadb"
+    username: "passboltmariadbuser"
+    password: "passboltmariadbpassword"
 
-    database: "passbolt"
-    username: "passbolt"
-    password: "<pwgen -n 64 1>"
+mariadb-galera:
+  enabled: false
+  rootUser:
+    password: "passboltgalerarootpassword"
+  galera:  
+    mariabackup:
+      password: "passboltgaleramariabackuppassword"
+  db:
+    user: "passboltgalerauser"
+    password: "passboltgalerapassword"
+    name: "passboltgaleradb"
+
+redis:
+  enabled: false
+  sentinel:
+    enabled: true
+    getMasterTimeout: 1
+    automateClusterRecovery: true
+  auth:
+    password: "redispassword"
+
+redis-cluster:
+  enabled: false
+  password: "redisclusterpassword"
+
+passbolt-ha-monitor:
+  enabled: false
+  redisCliAuth: "redispassword"
 
 # Service
 service:
   type: ClusterIP
   port: 80
 
-# Ingress
+podDisruptionBudget:
+  enabled: false
+  rule:
+    type: minAvailable
+    value: 1
+
 ingress:
   enabled: true
+  className: ""
   annotations: {}
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
-  host: "passbolt.yourdomain.com"
-  tls:
-    enabled: false
-#    secretName: chart-example-tls
+  host: localhost
+  scheme: https
+  paths:
+    - path: /
+      pathType: ImplementationSpecific
 
 resources: {}
   # We usually recommend not to specify default resources and to leave this as a conscious
@@ -121,9 +159,15 @@ resources: {}
   #   cpu: 100m
   #   memory: 128Mi
 
+autoscaling:
+  enabled: false
+  minReplicas: 1
+  maxReplicas: 100
+  targetCPUUtilizationPercentage: 80
+  # targetMemoryUtilizationPercentage: 80
+
 nodeSelector: {}
 
 tolerations: []
 
 affinity: {}
-
