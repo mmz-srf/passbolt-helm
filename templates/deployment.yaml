@@ -47,7 +47,7 @@ spec:
         command: ['sh', '-c', "until nc -z -w3 {{ .Values.mariadb.auth.host }} 3306; do echo 'passbolt: waiting for database connection'; sleep 2; done"]
         {{- end }}
         resources:
-          {{- toYaml .Values.resources | nindent 12 }}
+          {{- toYaml .Values.resources | nindent 10 }}
       containers:
         - name: passbolt
           securityContext:
