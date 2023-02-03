@@ -59,6 +59,7 @@ passbolt:
     email:
       enabled: false
       from: you@localhost
+      from_name: "Your sender name"
       host: localhost
       port: 25
       tls: false
