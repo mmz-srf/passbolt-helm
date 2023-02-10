@@ -39,6 +39,9 @@ A `values-fingerprint.yaml` file will be created containing GPG keys fingerprint
 
 Review values.yaml file, especially the `ingress.hosts.host` for passbolt domain name then deploy passbolt in your cluster
 
+Always review passbolt configuration options it self.
+Especially their environment variables https://help.passbolt.com/configure/environment/reference
+
 ### non-HA mode
 
 This mode will deploy the [passbolt container](https://github.com/passbolt/passbolt_docker/tree/master) and a mysql database (mariadb)
@@ -109,16 +112,16 @@ For more parameters you should have a look at ...
 | `passbolt.config.license.enabled`                    | Set true if you own a license key. Add the license key in [secrets/pro-license/license](secrets/pro-license/license) | `false`                             |
 | `passbolt.config.license.key`                        | The license key. If set the license key will not be read from [file](secrets/pro-license/license).                   | `false`                             |
 | `passbolt.config.php.max_execution_time`             | PHP Max execution time                                                                                               | `300`                               |
-| `passbolt.config.php.memory_limit`                   | PHP Memory Limit                                                                                                    | `512M`                               |
-| `passbolt.config.php.post_max_size`                  | PHP post max size                                                                                                   | `24M`                                |
-| `passbolt.config.php.upload_max_filesize`            | PHP upload max filesize                                                                                             | `24M`                                |
-| `passbolt.config.php.pm_value`                       | PHP-FPM pm_value                                                                                                    | `dynamic`                            |
-| `passbolt.config.php.pm.max_children`                | PHP-FPM pm.max_children                                                                                             | `40`                            |
-| `passbolt.config.php.pm.start_servers`               | PHP-FPM pm.start_servers                                                                                            | `16`                            |
-| `passbolt.config.php.pm.min_spare_servers`           | PHP-FPM pm.min_spare_servers                                                                                        | `8`                             |
-| `passbolt.config.php.pm.max_spare_servers`           | PHP-FPM pm.max_spare_servers                                                                                        | `16`                            |
-| `passbolt.config.php.pm.process_idle_timeout`        | PHP-FPM pm.process_idle_timeout                                                                                     | `10s`                           |
-| `passbolt.config.php.pm.max_requests`                | PHP-FPM pm.max_requests                                                                                             | `500`                           |
+| `passbolt.config.php.memory_limit`                   | PHP Memory Limit                                                                                                     | `512M`                              |
+| `passbolt.config.php.post_max_size`                  | PHP post max size                                                                                                    | `24M`                               |
+| `passbolt.config.php.upload_max_filesize`            | PHP upload max filesize                                                                                              | `24M`                               |
+| `passbolt.config.php.pm_value`                       | PHP-FPM pm_value                                                                                                     | `dynamic`                           |
+| `passbolt.config.php.pm.max_children`                | PHP-FPM pm.max_children                                                                                              | `40`                                |
+| `passbolt.config.php.pm.start_servers`               | PHP-FPM pm.start_servers                                                                                             | `16`                                |
+| `passbolt.config.php.pm.min_spare_servers`           | PHP-FPM pm.min_spare_servers                                                                                         | `8`                                 |
+| `passbolt.config.php.pm.max_spare_servers`           | PHP-FPM pm.max_spare_servers                                                                                         | `16`                                |
+| `passbolt.config.php.pm.process_idle_timeout`        | PHP-FPM pm.process_idle_timeout                                                                                      | `10s`                               |
+| `passbolt.config.php.pm.max_requests`                | PHP-FPM pm.max_requests                                                                                              | `500`                               |
 | `passbolt.config.php.session.lifetime`               | Lifetime of your user sessions in seconds                                                                            | `3600`                              |
 | `passbolt.config.php.session.redis.enabled`          | Enable this if you want to provide your own redis as a session backend                                               | `false`                             |
 | `passbolt.config.php.session.redis.service`          | The URL of your redis endpoint, only useful if enabled                                                               | `redis`                             |
@@ -126,6 +129,7 @@ For more parameters you should have a look at ...
 | `passbolt.config.plugins.importenabled`              | Enable import plugin                                                                                                 | `true`                              |
 | `passbolt.config.email.enabled`                      | Enable/Disable sending emails transport                                                                              | `false`                             |
 | `passbolt.config.email.from`                         | From email address                                                                                                   | `you@localhost`                     |
+| `passbolt.config.email.from_name`                    | From Name                                                                                                            | `Your Sender Name`                  |
 | `passbolt.config.email.host`                         | Email server hostname                                                                                                | `localhost`                         |
 | `passbolt.config.email.port`                         | Email server port                                                                                                    | `25`                                |
 | `passbolt.config.email.timeout`                      | Email server timeout                                                                                                 | `30`                                |
