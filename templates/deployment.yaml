@@ -126,6 +126,8 @@ spec:
             value: {{ .Values.passbolt.config.salt }}
           - name: PASSBOLT_PLUGINS_EXPORT_ENABLED
             value: {{ .Values.passbolt.config.plugins.exportenabled | quote }}
+          - name: PASSBOLT_PLUGINS_SSO_ENABLED
+            value: {{ .Values.passbolt.config.plugins.ssoenabled | quote }}
           - name: PASSBOLT_PLUGINS_IMPORT_ENABLED
             value: {{ .Values.passbolt.config.plugins.importenabled | quote }}
           - name: PASSBOLT_GPG_SERVER_KEY_FINGERPRINT
