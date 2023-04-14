@@ -127,6 +127,7 @@ For more parameters you should have a look at ...
 | `passbolt.config.php.session.redis.service`          | The URL of your redis endpoint, only useful if enabled                                                               | `redis`                             |
 | `passbolt.config.plugins.exportenabled`              | Enable export plugin                                                                                                 | `true`                              |
 | `passbolt.config.plugins.importenabled`              | Enable import plugin                                                                                                 | `true`                              |
+| `passbolt.config.plugins.ssoenabled`                 | Enable SSO plugin                                                                                                    | `true`                              |
 | `passbolt.config.email.enabled`                      | Enable/Disable sending emails transport                                                                              | `false`                             |
 | `passbolt.config.email.from`                         | From email address                                                                                                   | `you@localhost`                     |
 | `passbolt.config.email.from_name`                    | From Name                                                                                                            | `Your Sender Name`                  |
