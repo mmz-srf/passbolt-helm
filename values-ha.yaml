@@ -6,7 +6,7 @@ image:
   repository: passbolt/passbolt
   pullPolicy: IfNotPresent
   # Overrides the image tag whose default is the chart appVersion.
-  tag: "3.7.3-1-pro"
+  tag: "3.12.0-3-pro"
 passbolt:
   config:
     license:
