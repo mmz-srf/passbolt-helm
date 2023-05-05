@@ -1,5 +1,12 @@
 # Passbolt Kubernetes Helm Charts
 
+> **Warning**
+> 
+> This Repository is marked **deprecated** in favor of the official Passbolt charts. 
+>
+> https://github.com/passbolt/charts-passbolt
+
+
 [![GitHub license](https://img.shields.io/github/license/mmz-srf/passbolt-helm)](https://github.com/mmz-srf/passbolt-helm/blob/master/LICENSE)
 ![GitHub issues](https://img.shields.io/badge/kubernetes-v1.19-green)
 [![GitHub issues](https://img.shields.io/github/issues/mmz-srf/passbolt-helm)](https://github.com/mmz-srf/passbolt-helm/issues)
