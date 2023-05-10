@@ -82,7 +82,7 @@ passbolt:
     security:
       # Needs to be disabled because of Ingress/LoadBalancer IP mismatch
       userip: true
-       # If disabled, no additional prompt pops up when logging in using SSO
+      # If disabled, no additional prompt pops up when logging in using SSO
       ssosecurityprompt: true
 
 serviceAccount:
