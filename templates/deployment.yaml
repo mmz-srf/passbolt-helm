@@ -134,6 +134,10 @@ spec:
             value: {{ .Values.passbolt.config.gpgServerKeyFingerprint }}
           - name: DEBUG
             value: {{ .Values.passbolt.config.debug | quote }}
+          - name: PASSBOLT_SECURITY_USER_IP
+            value: {{ .Values.passbolt.config.security.userip | quote }}
+          - name: PASSBOLT_PLUGINS_SSO_SECURITY_PROMPT
+            value: {{ .Values.passbolt.config.security.ssosecurityprompt | quote }}
           ports:
             - name: http
               containerPort: 80

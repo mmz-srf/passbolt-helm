@@ -79,6 +79,9 @@ passbolt:
       periodSeconds: 3
       initialDelaySeconds: 3
       timeoutSeconds: 10
+    security:
+      userip: true
+      ssosecurityprompt: true
 
 serviceAccount:
   # Specifies whether a service account should be created
