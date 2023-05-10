@@ -80,7 +80,7 @@ passbolt:
       initialDelaySeconds: 3
       timeoutSeconds: 10
     security:
-      # Needs to be disabled because of Ingress/LoadBalancer IP mismatch
+      # Needs to be disabled when having issues with IP mismatch while using LoadBalancers
       userip: true
       # If disabled, no additional prompt pops up when logging in using SSO
       ssosecurityprompt: true
