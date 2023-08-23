@@ -145,7 +145,7 @@ spec:
               mountPath: /etc/passbolt/gpg
               readOnly: true
             - name: passbolt-configmap
-              mountPath: /etc/php/7.4/fpm/pool.d/zzz-passbolt.conf
+              mountPath: /etc/php/8.2/fpm/pool.d/zzz-passbolt.conf
               subPath: zzz-passbolt.conf
               readOnly: true
             - name: passbolt-configmap
